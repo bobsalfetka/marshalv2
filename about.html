@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>О нас — МАРШАЛ Event Agency</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .about-story {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 0;
+      background: var(--dark-1);
+    }
+    .story-visual {
+      position: relative; overflow: hidden; min-height: 600px;
+      background: var(--dark-3);
+    }
+    .story-visual img { width: 100%; height: 100%; object-fit: cover; }
+    .story-visual-num {
+      position: absolute; bottom: 40px; right: 40px;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 8rem; color: rgba(201,168,76,0.1); line-height: 1;
+    }
+    .story-visual-badge {
+      position: absolute; top: 40px; left: 40px;
+      background: var(--gold); padding: 20px 28px;
+    }
+    .badge-num {
+      font-family: 'Bebas Neue', sans-serif; font-size: 2.8rem;
+      color: var(--black); line-height: 1;
+    }
+    .badge-label {
+      font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: rgba(0,0,0,0.6);
+    }
+    .story-text {
+      padding: 80px 70px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .story-lead {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.4rem, 2vw, 2.2rem);
+      font-weight: 300; color: var(--cream); line-height: 1.5; margin-bottom: 24px;
+    }
+    .story-body { font-size: 0.85rem; line-height: 1.9; color: var(--cream-dim); }
+    .story-body p + p { margin-top: 16px; }
+    .story-body strong { color: var(--cream); }
+
+    .strengths-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 1px; background: var(--border-dark); border: 1px solid var(--border-dark);
+      margin-top: 60px;
+    }
+    .strength-item {
+      background: var(--dark-1); padding: 44px 36px;
+      position: relative; overflow: hidden;
+      transition: background 0.3s;
+    }
+    .strength-item:hover { background: var(--dark-2); }
+    .strength-item::after {
+      content: ''; position: absolute; left: 0; bottom: 0;
+      width: 0; height: 2px; background: var(--gold);
+      transition: width 0.5s var(--ease-out);
+    }
+    .strength-item:hover::after { width: 100%; }
+    .strength-icon { font-size: 2rem; color: var(--gold); margin-bottom: 20px; }
+    .strength-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.2rem; color: var(--cream); margin-bottom: 10px;
+    }
+    .strength-desc { font-size: 0.78rem; line-height: 1.8; color: var(--cream-dim); }
+
+    .tv-section {
+      background: var(--dark-2); padding: 100px 60px;
+      display: grid; grid-template-columns: 5fr 4fr; gap: 80px; align-items: center;
+    }
+    .tv-visual {
+      position: relative; aspect-ratio: 16/9;
+      background: var(--dark-3); overflow: hidden;
+    }
+    .tv-visual img { width: 100%; height: 100%; object-fit: cover; }
+    .tv-play {
+      position: absolute; inset: 0;
+      display: flex; align-items: center; justify-content: center;
+      background: rgba(7,7,8,0.4);
+    }
+    .tv-play-ring {
+      width: 80px; height: 80px; border-radius: 50%;
+      border: 2px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.3s, background 0.3s;
+    }
+    .tv-visual:hover .tv-play-ring { transform: scale(1.1); background: rgba(201,168,76,0.15); }
+    .tv-years {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(4rem, 8vw, 8rem); color: var(--gold);
+      line-height: 1; margin-bottom: 8px;
+    }
+    .tv-label { font-size: 0.7rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--cream-dim); margin-bottom: 28px; }
+    .tv-text { font-size: 0.88rem; line-height: 1.9; color: var(--cream-dim); }
+    .tv-text strong { color: var(--cream); }
+    .tv-channels {
+      display: flex; gap: 16px; flex-wrap: wrap; margin-top: 24px;
+    }
+    .tv-channel {
+      font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--black); background: var(--gold); padding: 8px 16px;
+    }
+
+    @media (max-width: 900px) {
+      .about-story { grid-template-columns: 1fr; }
+      .story-visual { min-height: 300px; }
+      .story-text { padding: 48px 24px; }
+      .strengths-grid { grid-template-columns: 1fr 1fr; }
+      .tv-section { grid-template-columns: 1fr; padding: 60px 24px; gap: 40px; }
+    }
+    @media (max-width: 600px) {
+      .strengths-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="noise"></div>
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+<div class="cursor-label"></div>
+
+<div class="mobile-overlay">
+  <ul class="mobile-nav">
+    <li><a href="index.html">Главная</a></li>
+    <li><a href="about.html">О нас</a></li>
+    <li><a href="services.html">Услуги</a></li>
+    <li><a href="portfolio.html">Портфолио</a></li>
+    <li><a href="contacts.html">Контакты</a></li>
+  </ul>
+</div>
+
+<header class="nav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 22 22" fill="none"><path d="M3 3L11 19L19 3" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 3h16" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="nav-logo-text">Маршал<small>Event Agency</small></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Главная</a></li>
+    <li><a href="about.html" class="active">О нас</a></li>
+    <li><a href="services.html">Услуги</a></li>
+    <li><a href="portfolio.html">Портфолио</a></li>
+    <li><a href="contacts.html">Контакты</a></li>
+  </ul>
+  <a href="contacts.html" class="nav-cta"><span>Обсудить проект</span></a>
+  <div class="burger"><span></span><span></span><span></span></div>
+</header>
+
+<div class="inner-hero">
+  <div class="inner-hero-grid"></div>
+  <div class="inner-hero-content">
+    <div class="inner-tag">Агентство</div>
+    <h1 class="inner-title">О <em>нас</em></h1>
+  </div>
+  <div class="inner-hero-num">25</div>
+</div>
+
+<!-- STORY -->
+<div class="about-story">
+  <div class="story-visual">
+    <img src="images/about-story.jpg" alt="Агентство МАРШАЛ">
+    <div class="story-visual-badge">
+      <div class="badge-num">25</div>
+      <div class="badge-label">лет опыта</div>
+    </div>
+    <div class="story-visual-num">2K+</div>
+  </div>
+  <div class="story-text">
+    <div class="s-tag" data-reveal>История компании</div>
+    <p class="story-lead" data-reveal data-delay="2">
+      Агентство «МАРШАЛ» — одна из ведущих event-компаний Екатеринбурга
+      с двадцатипятилетней историей.
+    </p>
+    <div class="story-body" data-reveal data-delay="3">
+      <p>
+        За 25 лет мы организовали более <strong>2000 мероприятий</strong> —
+        от камерных торжеств до масштабных городских форумов на несколько тысяч гостей.
+        Наши клиенты — компании с самыми высокими стандартами качества.
+      </p>
+      <p>
+        Основатель агентства — <strong>выпускник Екатеринбургского государственного
+        театрального института</strong>. 18 лет он проработал ведущим программ
+        на федеральных телеканалах, в том числе <strong>12 лет на «России-1»</strong>
+        (Вести-Урал) и 3 года вёл автомобильную программу «АвтоNews».
+      </p>
+      <p>
+        Телевизионный опыт — это умение работать в прямом эфире, управлять
+        залом, держать сценарий в любых обстоятельствах и создавать
+        настоящее шоу из любого события.
+      </p>
+    </div>
+    <div style="margin-top:36px;" data-reveal data-delay="4">
+      <a href="contacts.html" class="btn-gold">
+        <span>Обсудить проект</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-band">
+  <div class="stat-col"><div class="stat-num"><span data-count="25">0</span>+</div><div class="stat-text">Лет опыта</div></div>
+  <div class="stat-col"><div class="stat-num"><span data-count="2000">0</span>+</div><div class="stat-text">Мероприятий</div></div>
+  <div class="stat-col"><div class="stat-num"><span data-count="18">0</span></div><div class="stat-text">Лет на ТВ</div></div>
+  <div class="stat-col"><div class="stat-num"><span data-count="10">0</span>+</div><div class="stat-text">Лет в видео</div></div>
+</div>
+
+<!-- TV SECTION -->
+<div class="tv-section">
+  <div class="tv-visual" data-reveal>
+    <img src="images/tv-bg.jpg" alt="Телевидение">
+    <div class="tv-play">
+      <div class="tv-play-ring">
+        <svg width="20" height="24" viewBox="0 0 20 24" fill="none"><path d="M2 2l16 10L2 22V2z" fill="#c9a84c"/></svg>
+      </div>
+    </div>
+  </div>
+  <div data-reveal data-delay="2">
+    <div class="s-tag">Телевизионный опыт</div>
+    <div class="tv-years">18</div>
+    <div class="tv-label">Лет в прямом эфире</div>
+    <div class="tv-text">
+      <p>
+        <strong>12 лет на канале «Россия-1»</strong> (Вести-Урал) — это сотни
+        часов прямых эфиров, тысячи интервью, управление масштабными
+        телевизионными проектами.
+      </p>
+      <p style="margin-top:14px;">
+        3 года ведения автомобильной программы «АвтоNews» — динамичные
+        репортажи, презентации, работа с брендами мирового уровня.
+      </p>
+    </div>
+    <div class="tv-channels" style="margin-top:24px;">
+      <div class="tv-channel">Россия-1</div>
+      <div class="tv-channel">Вести-Урал</div>
+      <div class="tv-channel">АвтоNews</div>
+    </div>
+  </div>
+</div>
+
+<!-- STRENGTHS -->
+<section class="section" style="background:var(--black);">
+  <div class="s-tag" data-reveal>Почему мы</div>
+  <h2 class="s-title" data-reveal data-delay="2">Наши <em>преимущества</em></h2>
+  <div class="strengths-grid" data-reveal data-delay="3">
+    <div class="strength-item">
+      <div class="strength-icon">◈</div>
+      <div class="strength-title">Полный цикл</div>
+      <div class="strength-desc">От идеи до видеоотчёта — берём на себя каждую деталь. Вы занимаетесь бизнесом.</div>
+    </div>
+    <div class="strength-item">
+      <div class="strength-icon">◎</div>
+      <div class="strength-title">ТВ-опыт</div>
+      <div class="strength-desc">18 лет в прямом эфире — безупречная работа в любых условиях, никаких сбоев.</div>
+    </div>
+    <div class="strength-item">
+      <div class="strength-icon">◉</div>
+      <div class="strength-title">Топ-клиенты</div>
+      <div class="strength-desc">Сбербанк, УГМК, Правительство СО — работаем с компаниями высшей планки.</div>
+    </div>
+    <div class="strength-item">
+      <div class="strength-icon">◇</div>
+      <div class="strength-title">Видеопроизводство</div>
+      <div class="strength-desc">In-house производство: имиджевые фильмы, ролики, reels — 10+ лет экспертизы.</div>
+    </div>
+    <div class="strength-item">
+      <div class="strength-icon">⬡</div>
+      <div class="strength-title">Без шаблонов</div>
+      <div class="strength-desc">Каждое мероприятие — уникальная концепция под конкретную аудиторию и задачу.</div>
+    </div>
+    <div class="strength-item">
+      <div class="strength-icon">▣</div>
+      <div class="strength-title">Партнёрская база</div>
+      <div class="strength-desc">50+ проверенных подрядчиков: площадки, артисты, техника — только лучшие.</div>
+    </div>
+  </div>
+</section>
+
+<!-- CLIENTS -->
+<section class="clients-section">
+  <div style="padding:0 60px;" data-reveal><div class="s-tag">Нам доверяют</div></div>
+  <div class="clients-marquee-wrap">
+    <div class="clients-marquee">
+      <div class="client-tag"><span class="client-dot"></span>Правительство Свердловской области</div>
+      <div class="client-tag"><span class="client-dot"></span>Администрация Екатеринбурга</div>
+      <div class="client-tag"><span class="client-dot"></span>Сбербанк</div>
+      <div class="client-tag"><span class="client-dot"></span>УГМК-холдинг</div>
+      <div class="client-tag"><span class="client-dot"></span>Свердловская ЖД</div>
+      <div class="client-tag"><span class="client-dot"></span>Росавтодор</div>
+      <div class="client-tag"><span class="client-dot"></span>Атомстройкомплекс</div>
+      <div class="client-tag"><span class="client-dot"></span>Мегафон</div>
+      <div class="client-tag"><span class="client-dot"></span>МРСК-Урала</div>
+      <div class="client-tag"><span class="client-dot"></span>Фольксваген</div>
+      <div class="client-tag"><span class="client-dot"></span>Мегадента</div>
+      <div class="client-tag"><span class="client-dot"></span>Брусника</div>
+      <div class="client-tag"><span class="client-dot"></span>ТРЦ Карнавал</div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" style="min-height:50vh;">
+  <div class="cta-bg"></div>
+  <div class="cta-grid-lines"></div>
+  <div class="cta-content">
+    <div class="cta-sup" data-reveal>Начнём?</div>
+    <h2 class="cta-title" style="font-size:clamp(3.5rem,8vw,8rem);" data-reveal data-delay="2">
+      Обсудим<br><span class="gold">ваше</span><br>событие
+    </h2>
+    <div class="cta-actions" data-reveal data-delay="3" style="margin-top:32px;">
+      <a href="contacts.html" class="btn-gold"><span>Связаться с нами</span></a>
+    </div>
+    <a href="tel:+79122490043" class="cta-phone" data-reveal data-delay="4">+7 (912) 249-00-43</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div><div class="footer-logo">Маршал <span>·</span> Event Agency</div><p class="footer-tag">Профессиональная организация мероприятий любой сложности. Екатеринбург и вся Россия.</p></div>
+    <div><div class="f-col-title">Навигация</div><ul class="f-links"><li><a href="about.html">О нас</a></li><li><a href="services.html">Услуги</a></li><li><a href="portfolio.html">Портфолио</a></li><li><a href="contacts.html">Контакты</a></li></ul></div>
+    <div><div class="f-col-title">Услуги</div><ul class="f-links"><li><a href="services.html">Корпоративы</a></li><li><a href="services.html">Частные торжества</a></li><li><a href="services.html">Видеопроизводство</a></li></ul></div>
+    <div><div class="f-col-title">Контакты</div><ul class="f-links"><li><a href="tel:+79122490043">+7 (912) 249-00-43</a></li><li><a href="contacts.html">Написать нам</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 Event-агентство «МАРШАЛ»</span><span>Екатеринбург · Россия</span></div>
+</footer>
+<script src="js/main.js"></script>
+</body>
+</html>

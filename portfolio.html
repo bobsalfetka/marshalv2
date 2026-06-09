@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Портфолио — МАРШАЛ Event Agency</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── FILTER ── */
+    .filter-bar {
+      display: flex; gap: 8px; flex-wrap: wrap;
+      margin: 48px 0 40px;
+    }
+    .filter-btn {
+      font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
+      color: var(--cream-dim); border: 1px solid var(--border-dark);
+      padding: 10px 22px; cursor: pointer; font-family: 'Inter',sans-serif;
+      transition: all 0.3s;
+    }
+    .filter-btn:hover, .filter-btn.active {
+      background: var(--gold); color: var(--black); border-color: var(--gold);
+    }
+
+    /* ── MASONRY GRID ── */
+    .port-masonry {
+      columns: 3; column-gap: 8px;
+    }
+    .port-item {
+      break-inside: avoid; margin-bottom: 8px;
+      position: relative; overflow: hidden;
+      background: var(--dark-2); cursor: pointer;
+      display: block;
+      transition: opacity 0.4s;
+    }
+    .port-item.hidden { opacity: 0.15; pointer-events: none; }
+    .port-item img, .port-item video {
+      width: 100%; display: block;
+      transition: transform 0.7s var(--ease-out);
+    }
+    .port-item:hover img { transform: scale(1.06); }
+    .port-item-ph {
+      width: 100%; background: var(--dark-3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: rgba(201,168,76,0.2);
+    }
+    .port-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to top, rgba(7,7,8,0.9) 0%, transparent 50%);
+      opacity: 0; transition: opacity 0.4s;
+      display: flex; align-items: flex-end; padding: 22px;
+    }
+    .port-item:hover .port-overlay { opacity: 1; }
+    .port-cat { font-size: 0.56rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
+    .port-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; color: var(--cream); font-weight: 300;
+    }
+
+    /* ── FILMS SECTION ── */
+    .port-films { margin-top: 80px; }
+    .port-films-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 8px; margin-top: 40px;
+    }
+    .vk-card {
+      position: relative; aspect-ratio: 16/9;
+      background: var(--dark-2); overflow: hidden;
+    }
+    .vk-card iframe {
+      position: absolute; inset: 0; width: 100%; height: 100%; border: none;
+    }
+    .vk-ph {
+      position: absolute; inset: 0;
+      background: var(--dark-3);
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
+    }
+    .vk-ph-play {
+      width: 64px; height: 64px; border-radius: 50%;
+      border: 2px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .vk-ph-label { font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--cream-dim); }
+    .vk-info {
+      position: absolute; bottom: 0; left: 0; right: 0;
+      padding: 20px; background: linear-gradient(to top, rgba(7,7,8,0.85), transparent);
+    }
+    .vk-cat { font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 3px; }
+    .vk-name { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--cream); font-weight: 300; }
+
+    @media (max-width: 900px) {
+      .port-masonry { columns: 2; }
+      .port-films-grid { grid-template-columns: 1fr 1fr; }
+    }
+    @media (max-width: 550px) {
+      .port-masonry { columns: 1; }
+      .port-films-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div class="noise"></div>
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+<div class="cursor-label"></div>
+
+<div class="mobile-overlay">
+  <ul class="mobile-nav">
+    <li><a href="index.html">Главная</a></li>
+    <li><a href="about.html">О нас</a></li>
+    <li><a href="services.html">Услуги</a></li>
+    <li><a href="portfolio.html">Портфолио</a></li>
+    <li><a href="contacts.html">Контакты</a></li>
+  </ul>
+</div>
+
+<header class="nav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 22 22" fill="none"><path d="M3 3L11 19L19 3" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 3h16" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="nav-logo-text">Маршал<small>Event Agency</small></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Главная</a></li>
+    <li><a href="about.html">О нас</a></li>
+    <li><a href="services.html">Услуги</a></li>
+    <li><a href="portfolio.html" class="active">Портфолио</a></li>
+    <li><a href="contacts.html">Контакты</a></li>
+  </ul>
+  <a href="contacts.html" class="nav-cta"><span>Обсудить проект</span></a>
+  <div class="burger"><span></span><span></span><span></span></div>
+</header>
+
+<div class="inner-hero">
+  <div class="inner-hero-grid"></div>
+  <div class="inner-hero-content">
+    <div class="inner-tag">Наши работы</div>
+    <h1 class="inner-title">Порт<em>фолио</em></h1>
+  </div>
+  <div class="inner-hero-num">2000+</div>
+</div>
+
+<!-- PORTFOLIO -->
+<section class="section" style="background:var(--black);">
+  <div class="s-tag" data-reveal>Избранные проекты</div>
+  <h2 class="s-title" data-reveal data-delay="2">Мероприятия,<br>которые <em>мы создали</em></h2>
+
+  <div class="filter-bar" data-reveal data-delay="3">
+    <button class="filter-btn active" data-f="all">Все</button>
+    <button class="filter-btn" data-f="corporate">Корпоративные</button>
+    <button class="filter-btn" data-f="private">Частные</button>
+    <button class="filter-btn" data-f="concert">Концерты</button>
+    <button class="filter-btn" data-f="decor">Декор</button>
+    <button class="filter-btn" data-f="video">Видео</button>
+  </div>
+
+  <div class="port-masonry" data-reveal>
+    <div class="port-item" data-cat="corporate"><div class="port-item-ph" style="height:340px;">Фото</div>
+      <div class="port-overlay"><div><div class="port-cat">Корпоратив</div><div class="port-name">Сбербанк — Форум лидеров</div></div></div>
+    </div>
+    <div class="port-item" data-cat="decor"><div class="port-item-ph" style="height:240px;">Фото</div>
+      <div class="port-overlay"><div><div class="port-cat">Декор</div><div class="port-name">Гала-ужин — Оформление</div></div></div>
+    </div>
+    <div class="port-item" data-cat="concert"><div class="port-item-ph" style="height:300px;">Фото</div>
+      <div class="port-overlay"><div><div class="port-cat">Концерт</div><div class="port-name">УГМК — День металлурга</div></div></div>
+    </div>
+    <div class="port-item" data-cat="private"><div class="port-item-ph" style="height:270px;">Фото</div>
+      <div class="port-overlay"><div><div class="port-cat">Частное</div><div class="port-name">Юбилей 50 лет</div></div></div>
+    </div>
+    <div class="port-item" data-cat="corporate"><div class="port-item-ph" style="height:360px;">Фото</div>
+      <div class="port-overlay"><div><div class="port-cat">Форум</div><div class="port-name">Атомстройкомплекс — 30 лет</div></div></div>
+    </div>
+    <div class="port-item" data-cat="decor"><div class="port-item-ph" style="height:220px;">Фото</div>
+      <div class="port-overlay"><div><div class="port-cat">Свадьба</div><div class="port-name">White Dream Wedding</div></div></div>
+    </div>
+    <div class="port-item" data-cat="corporate"><div class="port-item-ph" style="height:250px;">Фото</div>
+      <div class="port-overlay"><div><div class="port-cat">Корпоратив</div><div class="port-name">Правительство СО — Гала</div></div></div>
+    </div>
+    <div class="port-item" data-cat="concert"><div class="port-item-ph" style="height:310px;">Фото</div>
+      <div class="port-overlay"><div><div class="port-cat">Концерт</div><div class="port-name">Открытие ТРЦ Карнавал</div></div></div>
+    </div>
+    <div class="port-item" data-cat="corporate"><div class="port-item-ph" style="height:270px;">Фото</div>
+      <div class="port-overlay"><div><div class="port-cat">Презентация</div><div class="port-name">Фольксваген — Новая модель</div></div></div>
+    </div>
+    <div class="port-item" data-cat="private"><div class="port-item-ph" style="height:230px;">Фото</div>
+      <div class="port-overlay"><div><div class="port-cat">Свадьба</div><div class="port-name">Торжество на 200 гостей</div></div></div>
+    </div>
+    <div class="port-item" data-cat="concert"><div class="port-item-ph" style="height:290px;">Фото</div>
+      <div class="port-overlay"><div><div class="port-cat">Фестиваль</div><div class="port-name">Мегафон — Летний fest</div></div></div>
+    </div>
+    <div class="port-item" data-cat="decor"><div class="port-item-ph" style="height:200px;">Фото</div>
+      <div class="port-overlay"><div><div class="port-cat">Декор</div><div class="port-name">Флористика банкетного зала</div></div></div>
+    </div>
+  </div>
+
+  <!-- FILMS -->
+  <div class="port-films">
+    <div class="s-tag" data-reveal>Видеопроизводство</div>
+    <h2 class="s-title" data-reveal data-delay="2">Наши <em>фильмы</em></h2>
+    <div class="port-films-grid" data-reveal data-delay="3">
+
+      <!-- Вставьте реальные embed-коды из ВКонтакте -->
+      <!-- Формат: https://vk.com/video_ext.php?oid=-212923425&id=VIDEO_ID&hash=HASH -->
+
+      <div class="vk-card">
+        <div class="vk-ph">
+          <div class="vk-ph-play">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 3l13 7-13 7V3z" fill="#c9a84c"/></svg>
+          </div>
+          <div class="vk-ph-label">wall-212923425_44</div>
+        </div>
+        <!-- <iframe src="https://vk.com/video_ext.php?oid=-212923425&id=XXXX&hash=XXXX" allowfullscreen></iframe> -->
+        <div class="vk-info">
+          <div class="vk-cat">Имиджевый фильм</div>
+          <div class="vk-name">УГМК — Корпоративное видео</div>
+        </div>
+      </div>
+
+      <div class="vk-card">
+        <div class="vk-ph">
+          <div class="vk-ph-play">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 3l13 7-13 7V3z" fill="#c9a84c"/></svg>
+          </div>
+          <div class="vk-ph-label">wall-212923425_45</div>
+        </div>
+        <div class="vk-info">
+          <div class="vk-cat">Рекламный ролик</div>
+          <div class="vk-name">Сбербанк — Форум 2024</div>
+        </div>
+      </div>
+
+      <div class="vk-card">
+        <div class="vk-ph">
+          <div class="vk-ph-play">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 3l13 7-13 7V3z" fill="#c9a84c"/></svg>
+          </div>
+          <div class="vk-ph-label">wall-212923425_47</div>
+        </div>
+        <div class="vk-info">
+          <div class="vk-cat">Event-видео</div>
+          <div class="vk-name">Атомстройкомплекс — 30 лет</div>
+        </div>
+      </div>
+
+      <div class="vk-card">
+        <div class="vk-ph">
+          <div class="vk-ph-play">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 3l13 7-13 7V3z" fill="#c9a84c"/></svg>
+          </div>
+          <div class="vk-ph-label">wall-212923425_42</div>
+        </div>
+        <div class="vk-info">
+          <div class="vk-cat">Презентационный фильм</div>
+          <div class="vk-name">Фольксваген — Новинка</div>
+        </div>
+      </div>
+
+      <div class="vk-card">
+        <div class="vk-ph">
+          <div class="vk-ph-play">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 3l13 7-13 7V3z" fill="#c9a84c"/></svg>
+          </div>
+          <div class="vk-ph-label">wall-212923425_41</div>
+        </div>
+        <div class="vk-info">
+          <div class="vk-cat">Концертный фильм</div>
+          <div class="vk-name">УГМК — День металлурга</div>
+        </div>
+      </div>
+
+      <div class="vk-card">
+        <div class="vk-ph">
+          <div class="vk-ph-play">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 3l13 7-13 7V3z" fill="#c9a84c"/></svg>
+          </div>
+          <div class="vk-ph-label">wall-212923425_40</div>
+        </div>
+        <div class="vk-info">
+          <div class="vk-cat">Имиджевое видео</div>
+          <div class="vk-name">Правительство СО — Гала</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" style="min-height:50vh;">
+  <div class="cta-bg"></div>
+  <div class="cta-grid-lines"></div>
+  <div class="cta-content">
+    <div class="cta-sup" data-reveal>Хотите так же?</div>
+    <h2 class="cta-title" style="font-size:clamp(3rem,7vw,7rem);" data-reveal data-delay="2">
+      Обсудим<br><span class="gold">ваш</span> проект
+    </h2>
+    <div class="cta-actions" data-reveal data-delay="3" style="margin-top:32px;">
+      <a href="contacts.html" class="btn-gold"><span>Оставить заявку</span></a>
+      <a href="tel:+79122490043" class="btn-outline-gold">+7 (912) 249-00-43</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">Маршал <span>·</span> Event Agency</div>
+      <p class="footer-tag">Профессиональная организация мероприятий любой сложности.</p>
+    </div>
+    <div><div class="f-col-title">Навигация</div><ul class="f-links"><li><a href="about.html">О нас</a></li><li><a href="services.html">Услуги</a></li><li><a href="portfolio.html">Портфолио</a></li><li><a href="contacts.html">Контакты</a></li></ul></div>
+    <div><div class="f-col-title">Услуги</div><ul class="f-links"><li><a href="services.html">Корпоративы</a></li><li><a href="services.html">Частные торжества</a></li><li><a href="services.html">Видеопроизводство</a></li></ul></div>
+    <div><div class="f-col-title">Контакты</div><ul class="f-links"><li><a href="tel:+79122490043">+7 (912) 249-00-43</a></li><li><a href="contacts.html">Написать нам</a></li></ul></div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Event-агентство «МАРШАЛ»</span>
+    <span>Екатеринбург · Россия</span>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+<script>
+  document.querySelectorAll('.filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const f = btn.dataset.f;
+      document.querySelectorAll('.port-item').forEach(item => {
+        item.classList.toggle('hidden', f !== 'all' && item.dataset.cat !== f);
+      });
+    });
+  });
+</script>
+</body>
+</html>

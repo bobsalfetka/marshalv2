@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Услуги — МАРШАЛ Event Agency</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .svc-full { padding: 0; }
+    .svc-row {
+      display: grid; grid-template-columns: 1fr 1fr;
+      min-height: 520px; border-bottom: 1px solid var(--border-dark);
+    }
+    .svc-row:last-child { border-bottom: none; }
+    .svc-row-text {
+      padding: 80px 70px;
+      display: flex; flex-direction: column; justify-content: center;
+      background: var(--dark-1);
+    }
+    .svc-row:nth-child(even) .svc-row-text { order: 2; }
+    .svc-row:nth-child(even) .svc-row-visual { order: 1; }
+    .svc-row-visual {
+      position: relative; overflow: hidden;
+      background: var(--dark-3); min-height: 400px;
+    }
+    .svc-row-visual img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.8s var(--ease-out); }
+    .svc-row:hover .svc-row-visual img { transform: scale(1.04); }
+    .svc-row-visual-ph {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--dark-2) 0%, var(--dark-3) 100%);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .svc-row-visual-ph-label { font-size: 0.55rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(201,168,76,0.2); }
+    .svc-row-visual-overlay {
+      position: absolute; inset: 0;
+      background: linear-gradient(to right, transparent 70%, var(--dark-1) 100%);
+    }
+    .svc-row:nth-child(even) .svc-row-visual-overlay {
+      background: linear-gradient(to left, transparent 70%, var(--dark-1) 100%);
+    }
+    .svc-row-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 5rem; color: rgba(201,168,76,0.08); line-height: 1; margin-bottom: 20px;
+    }
+    .svc-row-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 2.5vw, 2.6rem);
+      font-weight: 300; color: var(--cream); line-height: 1.15; margin-bottom: 20px;
+    }
+    .svc-row-name em { font-style: italic; color: var(--gold); }
+    .svc-row-desc { font-size: 0.85rem; line-height: 1.9; color: var(--cream-dim); margin-bottom: 28px; }
+    .svc-includes { list-style: none; margin-bottom: 32px; }
+    .svc-includes li {
+      font-size: 0.78rem; color: var(--cream-dim);
+      padding: 9px 0; border-bottom: 1px solid var(--border-dark);
+      display: flex; align-items: center; gap: 12px;
+    }
+    .svc-includes li::before { content: ''; width: 18px; height: 1px; background: var(--gold); flex-shrink: 0; }
+    .svc-row-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.8rem; font-weight: 300; color: var(--cream); margin-bottom: 28px;
+    }
+    .svc-row-price sub {
+      font-size: 0.9rem; color: var(--cream-dim);
+      vertical-align: baseline; margin-right: 4px;
+    }
+
+    /* packages */
+    .packages-section { background: var(--black); padding: 100px 60px; }
+    .pkg-grid {
+      display: grid; grid-template-columns: repeat(3,1fr);
+      gap: 1px; background: var(--border-dark); border: 1px solid var(--border-dark);
+      margin-top: 60px;
+    }
+    .pkg-card {
+      background: var(--dark-1); padding: 52px 40px;
+      position: relative; overflow: hidden;
+    }
+    .pkg-card.feat { background: var(--gold); }
+    .pkg-card.feat .pkg-name,
+    .pkg-card.feat .pkg-price,
+    .pkg-card.feat .pkg-feat li { color: var(--black); }
+    .pkg-card.feat .pkg-feat li { border-color: rgba(0,0,0,0.15); }
+    .pkg-card.feat .pkg-feat li::before { background: var(--black); }
+    .pkg-tag { font-size: 0.58rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 16px; }
+    .pkg-card.feat .pkg-tag { color: rgba(0,0,0,0.5); }
+    .pkg-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.6rem; font-weight: 300; color: var(--cream); margin-bottom: 8px;
+    }
+    .pkg-price {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.8rem; font-weight: 300; color: var(--cream); line-height: 1; margin-bottom: 32px;
+    }
+    .pkg-price sub { font-size: 1.1rem; vertical-align: baseline; margin-right: 4px; }
+    .pkg-feat { list-style: none; margin-bottom: 36px; }
+    .pkg-feat li {
+      font-size: 0.78rem; color: var(--cream-dim);
+      padding: 10px 0; border-bottom: 1px solid var(--border-dark);
+      display: flex; gap: 10px; align-items: flex-start;
+    }
+    .pkg-feat li::before { content: '✓'; color: var(--gold); flex-shrink: 0; }
+    .pkg-card.feat .pkg-feat li::before { color: var(--black); }
+    .btn-pkg {
+      display: inline-flex; align-items: center; gap: 10px;
+      font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase;
+      color: var(--cream); border: 1px solid var(--border);
+      padding: 14px 28px; text-decoration: none;
+      transition: all 0.3s;
+    }
+    .btn-pkg:hover { background: var(--gold); color: var(--black); border-color: var(--gold); }
+    .pkg-card.feat .btn-pkg { color: var(--black); border-color: rgba(0,0,0,0.3); }
+    .pkg-card.feat .btn-pkg:hover { background: var(--dark-1); color: var(--cream); border-color: var(--dark-1); }
+
+    @media (max-width: 900px) {
+      .svc-row { grid-template-columns: 1fr; }
+      .svc-row:nth-child(even) .svc-row-text { order: 0; }
+      .svc-row:nth-child(even) .svc-row-visual { order: 1; }
+      .svc-row-text { padding: 48px 24px; }
+      .svc-row-visual { min-height: 260px; }
+      .pkg-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div class="noise"></div>
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+<div class="cursor-label"></div>
+
+<div class="mobile-overlay">
+  <ul class="mobile-nav">
+    <li><a href="index.html">Главная</a></li>
+    <li><a href="about.html">О нас</a></li>
+    <li><a href="services.html">Услуги</a></li>
+    <li><a href="portfolio.html">Портфолио</a></li>
+    <li><a href="contacts.html">Контакты</a></li>
+  </ul>
+</div>
+
+<header class="nav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 22 22" fill="none"><path d="M3 3L11 19L19 3" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 3h16" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round"/></svg>
+    </div>
+    <div class="nav-logo-text">Маршал<small>Event Agency</small></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html">Главная</a></li>
+    <li><a href="about.html">О нас</a></li>
+    <li><a href="services.html" class="active">Услуги</a></li>
+    <li><a href="portfolio.html">Портфолио</a></li>
+    <li><a href="contacts.html">Контакты</a></li>
+  </ul>
+  <a href="contacts.html" class="nav-cta"><span>Обсудить проект</span></a>
+  <div class="burger"><span></span><span></span><span></span></div>
+</header>
+
+<div class="inner-hero">
+  <div class="inner-hero-grid"></div>
+  <div class="inner-hero-content">
+    <div class="inner-tag">Что мы делаем</div>
+    <h1 class="inner-title">Наши <em>услуги</em></h1>
+  </div>
+  <div class="inner-hero-num">06</div>
+</div>
+
+<!-- SERVICES ROWS -->
+<section class="svc-full">
+  <div class="svc-row">
+    <div class="svc-row-text" data-reveal="left">
+      <div class="svc-row-num">01</div>
+      <div class="s-tag" style="margin-bottom:12px;">Самое популярное</div>
+      <h2 class="svc-row-name">Корпоративные<br><em>мероприятия</em></h2>
+      <p class="svc-row-desc">Гала-вечера, конференции, форумы, тимбилдинг, юбилеи бренда — создаём события, которые работают на репутацию компании и объединяют команду.</p>
+      <ul class="svc-includes">
+        <li>Разработка концепции и сценария</li>
+        <li>Подбор и бронирование площадки</li>
+        <li>Художественное оформление</li>
+        <li>Технический райдер (звук, свет, экраны)</li>
+        <li>Артисты и шоу-программа</li>
+        <li>Кейтеринг и сервис</li>
+      </ul>
+      <div class="svc-row-price"><sub>от</sub>100 000 ₽</div>
+      <a href="contacts.html" class="btn-gold" style="display:inline-flex;">
+        <span>Запросить смету</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </a>
+    </div>
+    <div class="svc-row-visual">
+      <div class="svc-row-visual-ph"><div class="svc-row-visual-ph-label">Фото</div></div>
+      <div class="svc-row-visual-overlay"></div>
+    </div>
+  </div>
+
+  <div class="svc-row">
+    <div class="svc-row-text" data-reveal="right">
+      <div class="svc-row-num">02</div>
+      <h2 class="svc-row-name">Частные<br><em>торжества</em></h2>
+      <p class="svc-row-desc">Юбилеи, свадьбы, семейные вечера — каждая деталь создаёт атмосферу вашего характера. Никаких шаблонов, только ваша история.</p>
+      <ul class="svc-includes">
+        <li>Индивидуальная концепция</li>
+        <li>Ведущий с ТВ-опытом</li>
+        <li>Флористика и декор пространства</li>
+        <li>Фото и видеосъёмка</li>
+        <li>Живая музыка и DJ</li>
+      </ul>
+      <div class="svc-row-price"><sub>от</sub>80 000 ₽</div>
+      <a href="contacts.html" class="btn-gold" style="display:inline-flex;">
+        <span>Запросить смету</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </a>
+    </div>
+    <div class="svc-row-visual">
+      <div class="svc-row-visual-ph"><div class="svc-row-visual-ph-label">Фото</div></div>
+      <div class="svc-row-visual-overlay"></div>
+    </div>
+  </div>
+
+  <div class="svc-row">
+    <div class="svc-row-text" data-reveal="left">
+      <div class="svc-row-num">03</div>
+      <h2 class="svc-row-name">Видео<em>производство</em></h2>
+      <p class="svc-row-desc">10+ лет в создании видеоконтента. Имиджевые фильмы 3–4 минуты, рекламные ролики, презентационные видео, reels и скетчи для соцсетей.</p>
+      <ul class="svc-includes">
+        <li>Сценарий и раскадровка</li>
+        <li>Профессиональная съёмка</li>
+        <li>Монтаж и цветокоррекция</li>
+        <li>Анимация и моушн-дизайн</li>
+        <li>Горизонтальный и вертикальный формат</li>
+        <li>Reels / shorts для соцсетей</li>
+      </ul>
+      <div class="svc-row-price"><sub>от</sub>75 000 ₽</div>
+      <a href="contacts.html" class="btn-gold" style="display:inline-flex;">
+        <span>Запросить смету</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </a>
+    </div>
+    <div class="svc-row-visual">
+      <div class="svc-row-visual-ph"><div class="svc-row-visual-ph-label">Видео</div></div>
+      <div class="svc-row-visual-overlay"></div>
+    </div>
+  </div>
+
+  <div class="svc-row">
+    <div class="svc-row-text" data-reveal="right">
+      <div class="svc-row-num">04</div>
+      <h2 class="svc-row-name">Декор и<br><em>сценография</em></h2>
+      <p class="svc-row-desc">Превращаем пространство в атмосферу. Флористика, световые инсталляции, арт-объекты — создаём образ, а не просто украшение.</p>
+      <ul class="svc-includes">
+        <li>Концепция и 3D-визуализация</li>
+        <li>Флористические композиции</li>
+        <li>Световые инсталляции и LED</li>
+        <li>Арт-объекты под заказ</li>
+        <li>Зонирование и навигация</li>
+      </ul>
+      <div class="svc-row-price"><sub>от</sub>35 000 ₽</div>
+      <a href="contacts.html" class="btn-gold" style="display:inline-flex;">
+        <span>Запросить смету</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </a>
+    </div>
+    <div class="svc-row-visual">
+      <div class="svc-row-visual-ph"><div class="svc-row-visual-ph-label">Фото</div></div>
+      <div class="svc-row-visual-overlay"></div>
+    </div>
+  </div>
+
+  <div class="svc-row">
+    <div class="svc-row-text" data-reveal="left">
+      <div class="svc-row-num">05</div>
+      <h2 class="svc-row-name">Ведущие<br><em>и артисты</em></h2>
+      <p class="svc-row-desc">Профессиональные ведущие с телевизионным опытом. Звёзды эстрады, кавер-группы, танцевальные шоу — формируем программу под задачу.</p>
+      <ul class="svc-includes">
+        <li>Ведущий с 18-летним ТВ-опытом</li>
+        <li>Артисты любых жанров</li>
+        <li>Шоу-программы под ключ</li>
+        <li>Живая музыка и DJ</li>
+        <li>Интерактив и квизы</li>
+      </ul>
+      <div class="svc-row-price"><sub>от</sub>80 000 ₽</div>
+      <a href="contacts.html" class="btn-gold" style="display:inline-flex;">
+        <span>Запросить смету</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </a>
+    </div>
+    <div class="svc-row-visual">
+      <div class="svc-row-visual-ph"><div class="svc-row-visual-ph-label">Фото</div></div>
+      <div class="svc-row-visual-overlay"></div>
+    </div>
+  </div>
+</section>
+
+<!-- PACKAGES -->
+<section class="packages-section">
+  <div class="s-tag" data-reveal>Пакеты</div>
+  <h2 class="s-title" data-reveal data-delay="2">Форматы<br><em>сотрудничества</em></h2>
+  <div class="pkg-grid">
+    <div class="pkg-card" data-reveal data-delay="1">
+      <div class="pkg-tag">Старт</div>
+      <div class="pkg-name">Лендинг</div>
+      <div class="pkg-price"><sub>от</sub> 8 000 ₽</div>
+      <ul class="pkg-feat">
+        <li>Одностраничный сайт</li>
+        <li>Портфолио мероприятий</li>
+        <li>Пакеты услуг с ценами</li>
+        <li>Форма заявки</li>
+        <li>Базовая SEO</li>
+      </ul>
+      <a href="contacts.html" class="btn-pkg">Выбрать</a>
+    </div>
+    <div class="pkg-card feat" data-reveal data-delay="2">
+      <div class="pkg-tag">Рекомендуем</div>
+      <div class="pkg-name">Многостраничный</div>
+      <div class="pkg-price"><sub>от</sub> 13 000 ₽</div>
+      <ul class="pkg-feat">
+        <li>До 7 страниц</li>
+        <li>Видео в stories-формате</li>
+        <li>Горизонтальные фильмы</li>
+        <li>Фильтрация портфолио</li>
+        <li>Форма заявки + звонок</li>
+        <li>Базовая SEO</li>
+        <li>Адаптив для мобильных</li>
+      </ul>
+      <a href="contacts.html" class="btn-pkg">Выбрать</a>
+    </div>
+    <div class="pkg-card" data-reveal data-delay="3">
+      <div class="pkg-tag">Максимум</div>
+      <div class="pkg-name">С интеграциями</div>
+      <div class="pkg-price"><sub>от</sub> 17 000 ₽</div>
+      <ul class="pkg-feat">
+        <li>Всё из предыдущего</li>
+        <li>Онлайн-оплата</li>
+        <li>Умный чат 24/7</li>
+        <li>CRM-интеграция</li>
+        <li>Аналитика и отчёты</li>
+        <li>Приоритетная поддержка</li>
+      </ul>
+      <a href="contacts.html" class="btn-pkg">Выбрать</a>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" style="min-height:50vh;">
+  <div class="cta-bg"></div>
+  <div class="cta-grid-lines"></div>
+  <div class="cta-content">
+    <div class="cta-sup" data-reveal>Начнём</div>
+    <h2 class="cta-title" style="font-size:clamp(3rem,7vw,7rem);" data-reveal data-delay="2">
+      Получите<br><span class="gold">бесплатный</span><br>концепт
+    </h2>
+    <p class="cta-sub" data-reveal data-delay="3">Оставьте заявку — подготовим предложение в течение дня</p>
+    <div class="cta-actions" data-reveal data-delay="4" style="margin-top:32px;">
+      <a href="contacts.html" class="btn-gold"><span>Оставить заявку</span></a>
+      <a href="tel:+79122490043" class="btn-outline-gold">+7 (912) 249-00-43</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div><div class="footer-logo">Маршал <span>·</span> Event Agency</div><p class="footer-tag">Профессиональная организация мероприятий любой сложности.</p></div>
+    <div><div class="f-col-title">Навигация</div><ul class="f-links"><li><a href="about.html">О нас</a></li><li><a href="services.html">Услуги</a></li><li><a href="portfolio.html">Портфолио</a></li><li><a href="contacts.html">Контакты</a></li></ul></div>
+    <div><div class="f-col-title">Услуги</div><ul class="f-links"><li><a href="services.html">Корпоративы</a></li><li><a href="services.html">Частные торжества</a></li><li><a href="services.html">Видеопроизводство</a></li></ul></div>
+    <div><div class="f-col-title">Контакты</div><ul class="f-links"><li><a href="tel:+79122490043">+7 (912) 249-00-43</a></li><li><a href="contacts.html">Написать нам</a></li></ul></div>
+  </div>
+  <div class="footer-bottom"><span>© 2026 Event-агентство «МАРШАЛ»</span><span>Екатеринбург · Россия</span></div>
+</footer>
+<script src="js/main.js"></script>
+</body>
+</html>

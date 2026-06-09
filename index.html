@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>МАРШАЛ — Event Agency · Екатеринбург</title>
+  <meta name="description" content="Профессиональная организация мероприятий любой сложности. 25 лет опыта. Более 2000 событий.">
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    /* ── additional home-page styles ── */
+    .hero-video-bg.no-video {
+      background:
+        radial-gradient(ellipse 80% 60% at 65% 40%, rgba(201,168,76,0.14) 0%, transparent 65%),
+        radial-gradient(ellipse 50% 70% at 15% 75%, rgba(139,101,48,0.07) 0%, transparent 50%),
+        linear-gradient(160deg, #0a0907 0%, #111009 35%, #0c0b07 70%, #090807 100%);
+    }
+    .hero-grid-overlay {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(201,168,76,0.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201,168,76,0.025) 1px, transparent 1px);
+      background-size: 80px 80px;
+      z-index: 1;
+    }
+    .hero-side-text {
+      position: absolute; right: -60px; top: 50%;
+      transform: translateY(-50%) rotate(90deg);
+      font-size: 0.55rem; letter-spacing: 0.35em; text-transform: uppercase;
+      color: rgba(201,168,76,0.3); z-index: 2;
+      white-space: nowrap;
+    }
+    .hero-creds {
+      display: flex; align-items: center; gap: 32px;
+      margin-top: 32px;
+    }
+    .hero-cred {
+      display: flex; align-items: center; gap: 10px;
+      font-size: 0.68rem; color: rgba(240,237,230,0.4);
+    }
+    .hero-cred-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--gold); }
+
+    /* ABOUT INTRO */
+    .about-intro { background: var(--dark-2); }
+    .about-intro-inner {
+      max-width: 900px; margin: 0 auto; text-align: center;
+      padding: 120px 60px;
+    }
+    .about-intro-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: clamp(1.6rem, 3.5vw, 3.4rem);
+      font-weight: 300; color: var(--cream); line-height: 1.4;
+      margin-bottom: 32px;
+    }
+    .about-intro-title strong { font-weight: 500; color: var(--gold); }
+    .about-intro-body {
+      font-size: 0.9rem; line-height: 2; color: var(--cream-dim);
+      max-width: 680px; margin: 0 auto;
+    }
+    .gold-divider {
+      width: 60px; height: 1px; background: var(--gold);
+      margin: 32px auto;
+    }
+
+    /* PROCESS */
+    .process-section { background: var(--dark-2); }
+    .process-grid {
+      display: grid; grid-template-columns: repeat(5,1fr);
+      gap: 0; margin-top: 60px;
+      border: 1px solid var(--border-dark);
+    }
+    .process-step {
+      padding: 40px 28px;
+      border-right: 1px solid var(--border-dark);
+      position: relative; overflow: hidden;
+      transition: background 0.3s;
+    }
+    .process-step:last-child { border-right: none; }
+    .process-step:hover { background: rgba(201,168,76,0.04); }
+    .process-step-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 3.5rem; color: rgba(201,168,76,0.1);
+      line-height: 1; margin-bottom: 20px;
+      transition: color 0.3s;
+    }
+    .process-step:hover .process-step-num { color: rgba(201,168,76,0.25); }
+    .process-step-title {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.1rem; color: var(--cream); margin-bottom: 10px;
+    }
+    .process-step-desc { font-size: 0.75rem; line-height: 1.7; color: var(--cream-dim); }
+    .process-step-line {
+      position: absolute; bottom: 0; left: 0;
+      width: 0; height: 2px; background: var(--gold);
+      transition: width 0.5s var(--ease-out);
+    }
+    .process-step:hover .process-step-line { width: 100%; }
+
+    @media (max-width: 900px) {
+      .process-grid { grid-template-columns: 1fr 1fr; }
+      .process-step:nth-child(2n) { border-right: none; }
+      .process-step { border-bottom: 1px solid var(--border-dark); }
+      .about-intro-inner { padding: 80px 24px; }
+    }
+    @media (max-width: 500px) {
+      .process-grid { grid-template-columns: 1fr; }
+      .process-step { border-right: none; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- noise overlay -->
+<div class="noise"></div>
+<!-- page transition -->
+<div class="page-transition"></div>
+
+<!-- CURSOR -->
+<div class="cursor-dot"></div>
+<div class="cursor-ring"></div>
+<div class="cursor-label"></div>
+
+<!-- LOADER -->
+<div class="loader">
+  <div class="loader-logo">
+    <span class="loader-logo-char" style="animation-delay:0s">М</span>
+    <span class="loader-logo-char" style="animation-delay:.07s">А</span>
+    <span class="loader-logo-char" style="animation-delay:.14s">Р</span>
+    <span class="loader-logo-char" style="animation-delay:.21s">Ш</span>
+    <span class="loader-logo-char" style="animation-delay:.28s">А</span>
+    <span class="loader-logo-char" style="animation-delay:.35s">Л</span>
+  </div>
+  <div class="loader-sub">Event Agency · Екатеринбург</div>
+  <div class="loader-bar-wrap"><div class="loader-bar"></div></div>
+</div>
+
+<!-- MOBILE OVERLAY -->
+<div class="mobile-overlay">
+  <ul class="mobile-nav">
+    <li style="transition-delay:.05s"><a href="index.html">Главная</a></li>
+    <li style="transition-delay:.1s"><a href="about.html">О нас</a></li>
+    <li style="transition-delay:.15s"><a href="services.html">Услуги</a></li>
+    <li style="transition-delay:.2s"><a href="portfolio.html">Портфолио</a></li>
+    <li style="transition-delay:.25s"><a href="contacts.html">Контакты</a></li>
+  </ul>
+</div>
+
+<!-- NAV -->
+<header class="nav">
+  <a href="index.html" class="nav-logo">
+    <div class="nav-logo-icon">
+      <svg viewBox="0 0 22 22" fill="none">
+        <path d="M3 3L11 19L19 3" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+        <path d="M3 3h16" stroke="#c9a84c" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <div class="nav-logo-text">Маршал<small>Event Agency</small></div>
+  </a>
+  <ul class="nav-links">
+    <li><a href="index.html" class="active">Главная</a></li>
+    <li><a href="about.html">О нас</a></li>
+    <li><a href="services.html">Услуги</a></li>
+    <li><a href="portfolio.html">Портфолио</a></li>
+    <li><a href="contacts.html">Контакты</a></li>
+  </ul>
+  <a href="contacts.html" class="nav-cta"><span>Обсудить проект</span></a>
+  <div class="burger"><span></span><span></span><span></span></div>
+</header>
+
+<!-- ══════════════════════════════
+     HERO
+══════════════════════════════ -->
+<section class="hero">
+  <div class="hero-video-bg no-video">
+    <!-- Замените на реальное видео: -->
+    <!-- <video autoplay muted loop playsinline>
+      <source src="video/hero.mp4" type="video/mp4">
+    </video> -->
+  </div>
+  <div class="hero-grid-overlay"></div>
+  <div class="hero-year">25</div>
+  <div class="hero-side-text">Екатеринбург · Россия · Event Agency</div>
+
+  <!-- rotating badge -->
+  <div class="hero-badge">
+    <div class="hero-badge-inner">
+      Маршал<br>Event<br>Agency<br>◆
+    </div>
+  </div>
+
+  <div class="hero-scroll-line"></div>
+
+  <div class="hero-content">
+    <div class="hero-tag">
+      <span class="hero-tag-line"></span>
+      <span class="hero-tag-text">25 лет · 2000+ мероприятий</span>
+    </div>
+
+    <h1 class="hero-title">
+      <span style="opacity:0;animation:fade-in .8s 1.9s forwards;">Создаём</span><br>
+      <span class="gold-word" style="opacity:0;animation:fade-in .8s 2.05s forwards;">События,</span><br>
+      <span class="outline-word" style="opacity:0;animation:fade-in .8s 2.2s forwards;">Которые</span><br>
+      <span style="opacity:0;animation:fade-in .8s 2.35s forwards;">Помнят</span>
+    </h1>
+
+    <div class="hero-bottom">
+      <div>
+        <p class="hero-desc" style="opacity:0;animation:fade-in .8s 2.5s forwards;">
+          Профессиональная организация мероприятий любой сложности.
+          Гала-вечера, концерты, корпоративы, частные торжества —
+          ваш успех в деталях.
+        </p>
+        <div class="hero-creds" style="opacity:0;animation:fade-in .8s 2.7s forwards;">
+          <div class="hero-cred"><span class="hero-cred-dot"></span> Сбербанк</div>
+          <div class="hero-cred"><span class="hero-cred-dot"></span> УГМК</div>
+          <div class="hero-cred"><span class="hero-cred-dot"></span> Правительство СО</div>
+        </div>
+      </div>
+      <div class="hero-actions" style="opacity:0;animation:fade-in .8s 2.7s forwards;">
+        <a href="contacts.html" class="btn-gold">
+          <span>Обсудить мероприятие</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="portfolio.html" class="btn-outline-gold" data-cursor="СМОТРЕТЬ">Наши работы</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════
+     STORIES / REELS (вертикальные видео)
+══════════════════════════════ -->
+<section class="stories-section">
+  <div class="stories-header">
+    <div>
+      <div class="s-tag" data-reveal><span>Видео-моменты</span></div>
+      <h2 class="s-title" data-reveal data-delay="2">
+        Наши работы<br><em>в историях</em>
+      </h2>
+    </div>
+    <a href="portfolio.html" class="btn-outline-gold" data-reveal data-delay="3">Все видео</a>
+  </div>
+
+  <div class="stories-track-wrap">
+    <div class="stories-track" id="storiesTrack">
+
+      <!-- Story 1 — VK embed -->
+      <div class="story-card" data-cursor-play>
+        <iframe src="https://vk.com/video_ext.php?oid=-212923425&id=456239044&hash=auto"
+          allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
+          frameborder="0" allowfullscreen></iframe>
+        <div class="story-card-overlay">
+          <div>
+            <div class="story-tag">Корпоратив</div>
+            <div class="story-label">Сбербанк Форум</div>
+          </div>
+        </div>
+        <div class="story-play-btn">
+          <svg width="18" height="20" viewBox="0 0 18 20" fill="none">
+            <path d="M2 2l14 8L2 18V2z" fill="#c9a84c"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Story 2 -->
+      <div class="story-card" data-cursor-play>
+        <iframe src="https://vk.com/video_ext.php?oid=-212923425&id=456239045&hash=auto"
+          allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
+          frameborder="0" allowfullscreen></iframe>
+        <div class="story-card-overlay">
+          <div>
+            <div class="story-tag">Гала-вечер</div>
+            <div class="story-label">УГМК Холдинг</div>
+          </div>
+        </div>
+        <div class="story-play-btn">
+          <svg width="18" height="20" viewBox="0 0 18 20" fill="none">
+            <path d="M2 2l14 8L2 18V2z" fill="#c9a84c"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Story 3 -->
+      <div class="story-card" data-cursor-play>
+        <div class="story-ph">
+          <div class="story-ph-icon">▶</div>
+          <div class="story-ph-text">Добавьте видео<br>из ВКонтакте</div>
+        </div>
+        <div class="story-card-overlay">
+          <div>
+            <div class="story-tag">Концерт</div>
+            <div class="story-label">Городской фестиваль</div>
+          </div>
+        </div>
+        <div class="story-play-btn">
+          <svg width="18" height="20" viewBox="0 0 18 20" fill="none">
+            <path d="M2 2l14 8L2 18V2z" fill="#c9a84c"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Story 4 -->
+      <div class="story-card" data-cursor-play>
+        <div class="story-ph">
+          <div class="story-ph-icon">▶</div>
+          <div class="story-ph-text">Добавьте видео</div>
+        </div>
+        <div class="story-card-overlay">
+          <div>
+            <div class="story-tag">Частное</div>
+            <div class="story-label">Юбилей 50 лет</div>
+          </div>
+        </div>
+        <div class="story-play-btn">
+          <svg width="18" height="20" viewBox="0 0 18 20" fill="none">
+            <path d="M2 2l14 8L2 18V2z" fill="#c9a84c"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Story 5 -->
+      <div class="story-card" data-cursor-play>
+        <div class="story-ph">
+          <div class="story-ph-icon">▶</div>
+          <div class="story-ph-text">Добавьте видео</div>
+        </div>
+        <div class="story-card-overlay">
+          <div>
+            <div class="story-tag">Декор</div>
+            <div class="story-label">Свадьба в замке</div>
+          </div>
+        </div>
+        <div class="story-play-btn">
+          <svg width="18" height="20" viewBox="0 0 18 20" fill="none">
+            <path d="M2 2l14 8L2 18V2z" fill="#c9a84c"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Story 6 -->
+      <div class="story-card" data-cursor-play>
+        <div class="story-ph">
+          <div class="story-ph-icon">▶</div>
+          <div class="story-ph-text">Добавьте видео</div>
+        </div>
+        <div class="story-card-overlay">
+          <div>
+            <div class="story-tag">Корпоратив</div>
+            <div class="story-label">Атомстройкомплекс</div>
+          </div>
+        </div>
+        <div class="story-play-btn">
+          <svg width="18" height="20" viewBox="0 0 18 20" fill="none">
+            <path d="M2 2l14 8L2 18V2z" fill="#c9a84c"/>
+          </svg>
+        </div>
+      </div>
+
+      <!-- Story 7 -->
+      <div class="story-card" data-cursor-play>
+        <div class="story-ph">
+          <div class="story-ph-icon">▶</div>
+          <div class="story-ph-text">Добавьте видео</div>
+        </div>
+        <div class="story-card-overlay">
+          <div>
+            <div class="story-tag">Концерт</div>
+            <div class="story-label">День города</div>
+          </div>
+        </div>
+        <div class="story-play-btn">
+          <svg width="18" height="20" viewBox="0 0 18 20" fill="none">
+            <path d="M2 2l14 8L2 18V2z" fill="#c9a84c"/>
+          </svg>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="stories-arrows">
+    <button class="arrow-btn arrow-prev" aria-label="Назад">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <path d="M12 3L6 9l6 6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+    <button class="arrow-btn arrow-next" aria-label="Вперёд">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none">
+        <path d="M6 3l6 6-6 6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </div>
+</section>
+
+<!-- ══════════════════════════════
+     STATS BAND
+══════════════════════════════ -->
+<div class="stats-band">
+  <div class="stat-col">
+    <div class="stat-num"><span data-count="25">0</span>+</div>
+    <div class="stat-text">Лет опыта</div>
+  </div>
+  <div class="stat-col">
+    <div class="stat-num"><span data-count="2000">0</span>+</div>
+    <div class="stat-text">Мероприятий</div>
+  </div>
+  <div class="stat-col">
+    <div class="stat-num"><span data-count="18">0</span></div>
+    <div class="stat-text">Лет на ТВ</div>
+  </div>
+  <div class="stat-col">
+    <div class="stat-num"><span data-count="50">0</span>+</div>
+    <div class="stat-text">Ключевых партнёров</div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     ABOUT INTRO
+══════════════════════════════ -->
+<div class="about-intro">
+  <div class="about-intro-inner">
+    <div class="s-tag" style="justify-content:center;" data-reveal>Агентство «Маршал»</div>
+    <h2 class="about-intro-title" data-reveal data-delay="2">
+      Мы не просто организуем события —<br>
+      <strong>мы создаём воспоминания</strong>,<br>
+      которые остаются на всю жизнь
+    </h2>
+    <div class="gold-divider" data-reveal data-delay="3"></div>
+    <p class="about-intro-body" data-reveal data-delay="4">
+      25 лет в event-индустрии. Более 2000 мероприятий. Основатель агентства —
+      выпускник Екатеринбургского театрального института, 18 лет проработавший
+      ведущим на федеральных каналах, в том числе 12 лет на «России-1».
+    </p>
+    <div style="margin-top:36px;" data-reveal data-delay="5">
+      <a href="about.html" class="btn-outline-gold">Узнать больше о нас</a>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     SERVICES
+══════════════════════════════ -->
+<section class="section services-section">
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:60px;flex-wrap:wrap;gap:20px;">
+    <div>
+      <div class="s-tag" data-reveal>Что мы делаем</div>
+      <h2 class="s-title" data-reveal data-delay="2">Полный спектр<br><em>event-услуг</em></h2>
+    </div>
+    <a href="services.html" class="btn-gold" data-reveal data-delay="3">
+      <span>Все услуги</span>
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    </a>
+  </div>
+
+  <div class="services-grid">
+    <div class="svc-card" data-reveal>
+      <div class="svc-num">01</div>
+      <div class="svc-name">Корпоративные мероприятия</div>
+      <div class="svc-desc">Гала-вечера, конференции, форумы, тимбилдинг — создаём события, которые работают на репутацию бренда.</div>
+      <div class="svc-price">от 100 000 ₽</div>
+      <div class="svc-arrow">→</div>
+      <div class="process-step-line"></div>
+    </div>
+    <div class="svc-card" data-reveal data-delay="1">
+      <div class="svc-num">02</div>
+      <div class="svc-name">Частные торжества</div>
+      <div class="svc-desc">Юбилеи, свадьбы, семейные вечера — каждая деталь создаёт атмосферу вашего характера.</div>
+      <div class="svc-price">от 80 000 ₽</div>
+      <div class="svc-arrow">→</div>
+      <div class="process-step-line"></div>
+    </div>
+    <div class="svc-card" data-reveal data-delay="2">
+      <div class="svc-num">03</div>
+      <div class="svc-name">Концерты и шоу</div>
+      <div class="svc-desc">Артисты мирового уровня, технический райдер, сцена «под ключ» — масштаб любой.</div>
+      <div class="svc-price">от 150 000 ₽</div>
+      <div class="svc-arrow">→</div>
+      <div class="process-step-line"></div>
+    </div>
+    <div class="svc-card" data-reveal data-delay="1">
+      <div class="svc-num">04</div>
+      <div class="svc-name">Декор и сценография</div>
+      <div class="svc-desc">Флористика, световые инсталляции, арт-объекты — превращаем пространство в образ.</div>
+      <div class="svc-price">от 35 000 ₽</div>
+      <div class="svc-arrow">→</div>
+      <div class="process-step-line"></div>
+    </div>
+    <div class="svc-card" data-reveal data-delay="2">
+      <div class="svc-num">05</div>
+      <div class="svc-name">Видеопроизводство</div>
+      <div class="svc-desc">Имиджевые фильмы, рекламные ролики, reels, скетчи — 10+ лет в видеопроизводстве.</div>
+      <div class="svc-price">от 75 000 ₽</div>
+      <div class="svc-arrow">→</div>
+      <div class="process-step-line"></div>
+    </div>
+    <div class="svc-card" data-reveal data-delay="3">
+      <div class="svc-num">06</div>
+      <div class="svc-name">Ведущие и артисты</div>
+      <div class="svc-desc">Профессиональные ведущие с телевизионным опытом, звёзды эстрады, шоу-программы.</div>
+      <div class="svc-price">от 80 000 ₽</div>
+      <div class="svc-arrow">→</div>
+      <div class="process-step-line"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════
+     HORIZONTAL FILMS
+══════════════════════════════ -->
+<section class="films-section">
+  <div class="films-header">
+    <div class="s-tag" data-reveal>Видеопроизводство</div>
+    <h2 class="s-title" data-reveal data-delay="2">
+      Наши <em>фильмы</em><br>
+      <span class="dim">и ролики</span>
+    </h2>
+    <p style="margin-top:16px;font-size:0.85rem;color:var(--cream-dim);max-width:500px;" data-reveal data-delay="3">
+      Имиджевые фильмы продолжительностью 3–4 минуты, рекламные ролики
+      и корпоративные видео в горизонтальном формате.
+    </p>
+  </div>
+
+  <div class="films-grid">
+    <!-- FILM 1 — WIDE (главный) -->
+    <div class="film-card wide">
+      <div class="film-ph"><div class="film-ph-text">Добавьте embed-код видео из ВКонтакте</div></div>
+      <!-- Embed из ВК: замените oid и id на реальные из ваших постов -->
+      <!-- <iframe src="https://vk.com/video_ext.php?oid=-212923425&id=XXXXXXX&hash=XXXXX&hd=2"
+        allow="autoplay; encrypted-media; fullscreen; picture-in-picture;"
+        allowfullscreen></iframe> -->
+      <div class="film-overlay">
+        <div class="film-play-ring">
+          <svg width="22" height="26" viewBox="0 0 22 26" fill="none">
+            <path d="M3 2l17 11L3 24V2z" fill="#c9a84c"/>
+          </svg>
+        </div>
+        <div class="film-duration">3:47 мин</div>
+      </div>
+      <div class="film-info">
+        <div class="film-cat">Имиджевый фильм</div>
+        <div class="film-name">УГМК Холдинг — Корпоративное видео</div>
+      </div>
+    </div>
+
+    <!-- FILM 2 -->
+    <div class="film-card">
+      <div class="film-ph"><div class="film-ph-text">Видео ВКонтакте</div></div>
+      <div class="film-overlay">
+        <div class="film-play-ring">
+          <svg width="20" height="24" viewBox="0 0 20 24" fill="none">
+            <path d="M2 2l16 10L2 22V2z" fill="#c9a84c"/>
+          </svg>
+        </div>
+        <div class="film-duration">2:15 мин</div>
+      </div>
+      <div class="film-info">
+        <div class="film-cat">Рекламный ролик</div>
+        <div class="film-name">Сбербанк — Форум лидеров</div>
+      </div>
+    </div>
+
+    <!-- FILM 3 -->
+    <div class="film-card">
+      <div class="film-ph"><div class="film-ph-text">Видео ВКонтакте</div></div>
+      <div class="film-overlay">
+        <div class="film-play-ring">
+          <svg width="20" height="24" viewBox="0 0 20 24" fill="none">
+            <path d="M2 2l16 10L2 22V2z" fill="#c9a84c"/>
+          </svg>
+        </div>
+        <div class="film-duration">4:02 мин</div>
+      </div>
+      <div class="film-info">
+        <div class="film-cat">Презентационный фильм</div>
+        <div class="film-name">Атомстройкомплекс — 30 лет</div>
+      </div>
+    </div>
+
+    <!-- FILM 4 -->
+    <div class="film-card">
+      <div class="film-ph"><div class="film-ph-text">Видео ВКонтакте</div></div>
+      <div class="film-overlay">
+        <div class="film-play-ring">
+          <svg width="20" height="24" viewBox="0 0 20 24" fill="none">
+            <path d="M2 2l16 10L2 22V2z" fill="#c9a84c"/>
+          </svg>
+        </div>
+        <div class="film-duration">1:48 мин</div>
+      </div>
+      <div class="film-info">
+        <div class="film-cat">Event-видео</div>
+        <div class="film-name">Правительство СО — Гала-ужин</div>
+      </div>
+    </div>
+
+    <!-- FILM 5 -->
+    <div class="film-card">
+      <div class="film-ph"><div class="film-ph-text">Видео ВКонтакте</div></div>
+      <div class="film-overlay">
+        <div class="film-play-ring">
+          <svg width="20" height="24" viewBox="0 0 20 24" fill="none">
+            <path d="M2 2l16 10L2 22V2z" fill="#c9a84c"/>
+          </svg>
+        </div>
+        <div class="film-duration">3:20 мин</div>
+      </div>
+      <div class="film-info">
+        <div class="film-cat">Имиджевый ролик</div>
+        <div class="film-name">Фольксваген — Презентация</div>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:48px;" data-reveal>
+    <a href="portfolio.html" class="btn-gold">
+      <span>Смотреть все видеоработы</span>
+      <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    </a>
+  </div>
+</section>
+
+<!-- ══════════════════════════════
+     ABOUT / FOUNDER
+══════════════════════════════ -->
+<div class="about-section">
+  <div class="about-visual">
+    <img src="images/founder.jpg" alt="Основатель агентства Маршал">
+    <div class="about-visual-overlay"></div>
+    <div class="about-gold-strip"></div>
+  </div>
+  <div class="about-text">
+    <div class="s-tag" data-reveal>Основатель</div>
+    <h2 class="s-title" data-reveal data-delay="2" style="margin-bottom:24px;">
+      Михаил<br><em>Маршал</em>
+    </h2>
+    <p class="about-lead" data-reveal data-delay="3">
+      Выпускник Екатеринбургского государственного театрального института.
+      Ведущий с 18-летним опытом на федеральных каналах.
+    </p>
+    <div class="about-body" data-reveal data-delay="4">
+      <p>
+        <strong>12 лет на канале «Россия-1»</strong> (Вести-Урал) и 3 года
+        в программе «АвтоNews» сформировали уникальный профессиональный опыт —
+        умение работать в прямом эфире, держать сценарий и управлять залом любого масштаба.
+      </p>
+      <p>
+        Более <strong>10 лет в видеопроизводстве</strong>: рекламные ролики,
+        имиджевые фильмы, клипы, reels — весь спектр видеоконтента in-house.
+      </p>
+    </div>
+    <div class="about-metrics" data-reveal data-delay="5">
+      <div>
+        <div class="about-metric-num">25+</div>
+        <div class="about-metric-label">Лет в индустрии</div>
+      </div>
+      <div>
+        <div class="about-metric-num">2000+</div>
+        <div class="about-metric-label">Мероприятий</div>
+      </div>
+      <div>
+        <div class="about-metric-num">18</div>
+        <div class="about-metric-label">Лет на ТВ</div>
+      </div>
+      <div>
+        <div class="about-metric-num">10+</div>
+        <div class="about-metric-label">Лет в видео</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     PORTFOLIO PREVIEW
+══════════════════════════════ -->
+<section class="portfolio-section">
+  <div style="display:flex;align-items:flex-end;justify-content:space-between;flex-wrap:wrap;gap:20px;">
+    <div>
+      <div class="s-tag" data-reveal>Избранные проекты</div>
+      <h2 class="s-title" data-reveal data-delay="2">Порт<em>фолио</em></h2>
+    </div>
+    <a href="portfolio.html" class="btn-outline-gold" data-reveal data-delay="3">Все проекты</a>
+  </div>
+
+  <div class="portfolio-grid" data-reveal>
+    <div class="p-item"><div class="p-ph"><div class="p-ph-label">Фото / Видео</div></div>
+      <div class="p-overlay"><div><div class="p-cat">Корпоратив</div><div class="p-name">Сбербанк — Форум 2024</div></div></div>
+    </div>
+    <div class="p-item"><div class="p-ph"><div class="p-ph-label">Фото</div></div>
+      <div class="p-overlay"><div><div class="p-cat">Гала-вечер</div><div class="p-name">Правительство СО</div></div></div>
+    </div>
+    <div class="p-item"><div class="p-ph"><div class="p-ph-label">Фото</div></div>
+      <div class="p-overlay"><div><div class="p-cat">Концерт</div><div class="p-name">УГМК — День металлурга</div></div></div>
+    </div>
+    <div class="p-item"><div class="p-ph"><div class="p-ph-label">Фото</div></div>
+      <div class="p-overlay"><div><div class="p-cat">Декор</div><div class="p-name">Свадьба White Dream</div></div></div>
+    </div>
+    <div class="p-item"><div class="p-ph"><div class="p-ph-label">Фото</div></div>
+      <div class="p-overlay"><div><div class="p-cat">Форум</div><div class="p-name">Атомстройкомплекс — 30 лет</div></div></div>
+    </div>
+    <div class="p-item"><div class="p-ph"><div class="p-ph-label">Фото</div></div>
+      <div class="p-overlay"><div><div class="p-cat">Шоу</div><div class="p-name">Городской праздник</div></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════
+     CLIENTS MARQUEE
+══════════════════════════════ -->
+<section class="clients-section">
+  <div style="padding:0 60px;" data-reveal>
+    <div class="s-tag">Нам доверяют</div>
+  </div>
+  <div class="clients-marquee-wrap">
+    <div class="clients-marquee">
+      <div class="client-tag"><span class="client-dot"></span>Правительство Свердловской области</div>
+      <div class="client-tag"><span class="client-dot"></span>Сбербанк</div>
+      <div class="client-tag"><span class="client-dot"></span>УГМК-холдинг</div>
+      <div class="client-tag"><span class="client-dot"></span>Свердловская ЖД</div>
+      <div class="client-tag"><span class="client-dot"></span>Росавтодор</div>
+      <div class="client-tag"><span class="client-dot"></span>Атомстройкомплекс</div>
+      <div class="client-tag"><span class="client-dot"></span>Мегафон</div>
+      <div class="client-tag"><span class="client-dot"></span>МРСК-Урала</div>
+      <div class="client-tag"><span class="client-dot"></span>ТРЦ Карнавал</div>
+      <div class="client-tag"><span class="client-dot"></span>Фольксваген</div>
+      <div class="client-tag"><span class="client-dot"></span>Брусника</div>
+      <div class="client-tag"><span class="client-dot"></span>Мегадента</div>
+      <div class="client-tag"><span class="client-dot"></span>Термальный спа-центр Акварель</div>
+      <div class="client-tag"><span class="client-dot"></span>Администрация Екатеринбурга</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════
+     PROCESS
+══════════════════════════════ -->
+<section class="section process-section">
+  <div class="s-tag" data-reveal>Как мы работаем</div>
+  <h2 class="s-title" data-reveal data-delay="2">Пять шагов к<br><em>идеальному</em> событию</h2>
+  <div class="process-grid" data-reveal data-delay="3">
+    <div class="process-step">
+      <div class="process-step-num">01</div>
+      <div class="process-step-title">Бриф</div>
+      <div class="process-step-desc">Изучаем задачи, аудиторию и бюджет. Предлагаем 2–3 концепции.</div>
+      <div class="process-step-line"></div>
+    </div>
+    <div class="process-step">
+      <div class="process-step-num">02</div>
+      <div class="process-step-title">Концепция</div>
+      <div class="process-step-desc">Разрабатываем детальный сценарий, визуал и тайминг.</div>
+      <div class="process-step-line"></div>
+    </div>
+    <div class="process-step">
+      <div class="process-step-num">03</div>
+      <div class="process-step-title">Подготовка</div>
+      <div class="process-step-desc">Подбираем площадку, подрядчиков, артистов и команду.</div>
+      <div class="process-step-line"></div>
+    </div>
+    <div class="process-step">
+      <div class="process-step-num">04</div>
+      <div class="process-step-title">Проведение</div>
+      <div class="process-step-desc">Координируем каждую деталь в день события. Никаких сюрпризов.</div>
+      <div class="process-step-line"></div>
+    </div>
+    <div class="process-step">
+      <div class="process-step-num">05</div>
+      <div class="process-step-title">Итоги</div>
+      <div class="process-step-desc">Передаём фото, видео и отчёт. Анализируем результат.</div>
+      <div class="process-step-line"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════════
+     CTA
+══════════════════════════════ -->
+<section class="cta-section">
+  <div class="cta-bg"></div>
+  <div class="cta-grid-lines"></div>
+  <div class="cta-content">
+    <div class="cta-sup" data-reveal>Готовы начать</div>
+    <h2 class="cta-title" data-reveal data-delay="2">
+      Создадим<br><span class="gold">Ваше</span><br>Событие
+    </h2>
+    <p class="cta-sub" data-reveal data-delay="3">Оставьте заявку — обсудим детали в течение часа</p>
+    <div class="cta-actions" data-reveal data-delay="4">
+      <a href="contacts.html" class="btn-gold">
+        <span>Обсудить мероприятие</span>
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M8 3l4 4-4 4" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+      </a>
+      <a href="portfolio.html" class="btn-outline-gold">Наши работы</a>
+    </div>
+    <a href="tel:+79122490043" class="cta-phone" data-reveal data-delay="5">+7 (912) 249-00-43</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div>
+      <div class="footer-logo">Маршал <span>·</span> Event Agency</div>
+      <p class="footer-tag">Профессиональная организация мероприятий любой сложности. Екатеринбург и вся Россия.</p>
+    </div>
+    <div>
+      <div class="f-col-title">Навигация</div>
+      <ul class="f-links">
+        <li><a href="about.html">О нас</a></li>
+        <li><a href="services.html">Услуги</a></li>
+        <li><a href="portfolio.html">Портфолио</a></li>
+        <li><a href="contacts.html">Контакты</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="f-col-title">Услуги</div>
+      <ul class="f-links">
+        <li><a href="services.html">Корпоративы</a></li>
+        <li><a href="services.html">Частные праздники</a></li>
+        <li><a href="services.html">Концерты</a></li>
+        <li><a href="services.html">Видеопроизводство</a></li>
+      </ul>
+    </div>
+    <div>
+      <div class="f-col-title">Контакты</div>
+      <ul class="f-links">
+        <li><a href="tel:+79122490043">+7 (912) 249-00-43</a></li>
+        <li><a href="contacts.html">Написать нам</a></li>
+        <li><a href="https://vk.com/marshal_event" target="_blank">ВКонтакте</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2026 Event-агентство «МАРШАЛ» · Екатеринбург</span>
+    <span>+7 (912) 249-00-43</span>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
