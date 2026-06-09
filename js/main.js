@@ -183,6 +183,37 @@ window.addEventListener('load', () => {
   if (nextBtn) nextBtn.addEventListener('click', () => track.scrollBy({ left: 300, behavior: 'smooth' }));
 })();
 
+// ── STORY CARD PLAY ──
+;(function() {
+  document.querySelectorAll('.story-card').forEach(card => {
+    const playBtn = card.querySelector('.story-play-btn');
+    const overlay = card.querySelector('.story-card-overlay');
+    const iframe  = card.querySelector('iframe');
+    const ph      = card.querySelector('.story-ph');
+
+    function activate() {
+      if (ph) {
+        // нет iframe — открываем VK пост в новой вкладке
+        const link = card.dataset.vkUrl;
+        if (link) window.open(link, '_blank');
+        return;
+      }
+      if (iframe) {
+        // добавляем autoplay к src VK
+        let src = iframe.src;
+        if (!src.includes('autoplay=1')) {
+          src += (src.includes('?') ? '&' : '?') + 'autoplay=1';
+        }
+        iframe.src = src;
+        card.classList.add('playing');
+      }
+    }
+
+    if (playBtn) playBtn.addEventListener('click', e => { e.stopPropagation(); activate(); });
+    if (overlay) overlay.addEventListener('click', activate);
+  });
+})();
+
 // ── FILM OVERLAY CLICK ──
 ;(function() {
   document.querySelectorAll('.film-overlay').forEach(overlay => {
@@ -190,11 +221,37 @@ window.addEventListener('load', () => {
       const card = overlay.closest('.film-card');
       const iframe = card.querySelector('iframe');
       if (iframe) {
-        const src = iframe.src;
-        if (!src.includes('autoplay=1')) iframe.src = src + (src.includes('?') ? '&' : '?') + 'autoplay=1';
-        overlay.style.display = 'none';
+        let src = iframe.src;
+        if (!src.includes('autoplay=1')) {
+          src += (src.includes('?') ? '&' : '?') + 'autoplay=1';
+        }
+        iframe.src = src;
+        card.classList.add('playing');
+      } else {
+        // нет iframe — плейсхолдер, ничего не делаем
+        overlay.style.cursor = 'default';
       }
     });
+  });
+})();
+
+// ── VK CARD CLICK (portfolio) ──
+;(function() {
+  document.querySelectorAll('.vk-card').forEach(card => {
+    const ph = card.querySelector('.vk-ph');
+    const iframe = card.querySelector('iframe');
+    if (ph) {
+      ph.style.cursor = 'pointer';
+      ph.addEventListener('click', () => {
+        // попытка запустить iframe если он есть
+        if (iframe) {
+          let src = iframe.src;
+          if (!src.includes('autoplay=1')) src += (src.includes('?') ? '&' : '?') + 'autoplay=1';
+          iframe.src = src;
+          ph.style.display = 'none';
+        }
+      });
+    }
   });
 })();
 

@@ -3,14 +3,150 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Портфолио — МАРШАЛ Event Agency</title>
+  <title>Портфолио - МАРШАЛ Event Agency</title>
   <link rel="stylesheet" href="css/style.css">
   <style>
-    /* ── FILTER ── */
-    .filter-bar {
-      display: flex; gap: 8px; flex-wrap: wrap;
-      margin: 48px 0 40px;
+
+    /* ════════ FEATURED VIDEO (главный герой) ════════ */
+    .featured-video-wrap {
+      background: var(--black);
+      padding: 0 60px 60px;
     }
+    .featured-video {
+      position: relative;
+      aspect-ratio: 21/9;
+      background: var(--dark-2);
+      overflow: hidden;
+      cursor: pointer;
+    }
+    @media (max-width: 768px) { .featured-video { aspect-ratio: 16/9; } }
+    .featured-video iframe {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; border: none;
+      pointer-events: none;
+    }
+    .featured-video.playing iframe { pointer-events: auto; }
+    .featured-video.playing .fv-overlay { display: none; }
+    .fv-overlay {
+      position: absolute; inset: 0; z-index: 2;
+      background: rgba(7,7,8,0.55);
+      display: flex; align-items: center; justify-content: center;
+      flex-direction: column; gap: 20px;
+      transition: background 0.3s;
+    }
+    .fv-overlay:hover { background: rgba(7,7,8,0.35); }
+    .fv-play-ring {
+      width: 100px; height: 100px; border-radius: 50%;
+      border: 2px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.3s, background 0.3s;
+      position: relative;
+    }
+    .fv-play-ring::before {
+      content: '';
+      position: absolute; inset: -8px;
+      border-radius: 50%;
+      border: 1px solid rgba(201,168,76,0.25);
+      animation: pulse-ring 2s ease-in-out infinite;
+    }
+    @keyframes pulse-ring {
+      0%,100% { transform: scale(1); opacity: 0.5; }
+      50% { transform: scale(1.15); opacity: 0; }
+    }
+    .fv-overlay:hover .fv-play-ring {
+      transform: scale(1.1);
+      background: rgba(201,168,76,0.15);
+    }
+    .fv-play-ring svg { margin-left: 5px; }
+    .fv-label { font-size: 0.65rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--gold); }
+    .fv-info {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 3;
+      padding: 36px 40px;
+      background: linear-gradient(to top, rgba(7,7,8,0.92) 0%, transparent 100%);
+      pointer-events: none;
+    }
+    .fv-cat { font-size: 0.6rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--gold); margin-bottom: 6px; }
+    .fv-name {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(1.8rem, 4vw, 3.5rem);
+      color: var(--cream); line-height: 1;
+    }
+    .fv-duration { font-size: 0.65rem; color: var(--cream-dim); margin-top: 6px; }
+    .fv-ph {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--dark-2) 0%, #1a1610 100%);
+      display: flex; align-items: center; justify-content: center;
+    }
+    .fv-ph-num {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(8rem, 20vw, 20rem);
+      color: rgba(201,168,76,0.06); line-height: 1;
+      user-select: none;
+    }
+
+    /* ════════ VK VIDEOS GRID ════════ */
+    .vk-section { background: var(--black); padding: 0 60px 80px; }
+    .vk-main-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-bottom: 8px;
+    }
+    .vk-main-grid .vk-wide { grid-column: span 2; }
+    .vk-card-v2 {
+      position: relative;
+      aspect-ratio: 16/9;
+      background: var(--dark-2);
+      overflow: hidden;
+      cursor: pointer;
+    }
+    .vk-card-v2.wide { aspect-ratio: unset; min-height: 300px; }
+    .vk-card-v2 iframe {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%; border: none;
+      pointer-events: none;
+    }
+    .vk-card-v2.playing iframe { pointer-events: auto; }
+    .vk-card-v2.playing .vkc-overlay { display: none; }
+    .vkc-overlay {
+      position: absolute; inset: 0; z-index: 2;
+      background: rgba(7,7,8,0.5);
+      display: flex; align-items: center; justify-content: center;
+      transition: background 0.3s;
+    }
+    .vkc-overlay:hover { background: rgba(7,7,8,0.25); }
+    .vkc-play {
+      width: 64px; height: 64px; border-radius: 50%;
+      border: 2px solid var(--gold);
+      display: flex; align-items: center; justify-content: center;
+      transition: transform 0.3s, background 0.3s;
+    }
+    .vkc-overlay:hover .vkc-play { transform: scale(1.1); background: rgba(201,168,76,0.2); }
+    .vkc-play svg { margin-left: 3px; }
+    .vkc-ph {
+      position: absolute; inset: 0;
+      background: linear-gradient(135deg, var(--dark-2), var(--dark-3));
+      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px;
+    }
+    .vkc-ph-icon { font-size: 2rem; color: rgba(201,168,76,0.3); }
+    .vkc-ph-lbl { font-size: 0.58rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--cream-dim); opacity: 0.5; }
+    .vkc-info {
+      position: absolute; bottom: 0; left: 0; right: 0; z-index: 3;
+      padding: 20px; background: linear-gradient(to top, rgba(7,7,8,0.85), transparent);
+      opacity: 0; transition: opacity 0.3s; pointer-events: none;
+    }
+    .vkc-card-v2:hover .vkc-info { opacity: 1; }
+    .vk-card-v2:hover .vkc-info { opacity: 1; }
+    .vkc-cat { font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 3px; }
+    .vkc-name { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--cream); font-weight: 300; }
+
+    /* ════════ STORIES STRIP (vertical) ════════ */
+    .port-stories { background: var(--dark-1); padding: 80px 0; }
+    .port-stories-header { padding: 0 60px; margin-bottom: 40px; }
+
+    /* ════════ PHOTO MASONRY ════════ */
+    .photo-section { background: var(--black); padding: 80px 60px; }
+    .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin: 40px 0 36px; }
     .filter-btn {
       font-size: 0.65rem; letter-spacing: 0.2em; text-transform: uppercase;
       color: var(--cream-dim); border: 1px solid var(--border-dark);
@@ -20,86 +156,54 @@
     .filter-btn:hover, .filter-btn.active {
       background: var(--gold); color: var(--black); border-color: var(--gold);
     }
-
-    /* ── MASONRY GRID ── */
-    .port-masonry {
-      columns: 3; column-gap: 8px;
-    }
+    .port-masonry { columns: 3; column-gap: 8px; }
     .port-item {
       break-inside: avoid; margin-bottom: 8px;
       position: relative; overflow: hidden;
       background: var(--dark-2); cursor: pointer;
-      display: block;
       transition: opacity 0.4s;
     }
-    .port-item.hidden { opacity: 0.15; pointer-events: none; }
-    .port-item img, .port-item video {
-      width: 100%; display: block;
-      transition: transform 0.7s var(--ease-out);
-    }
+    .port-item.hidden { opacity: 0.12; pointer-events: none; }
+    .port-item img { width: 100%; display: block; transition: transform 0.7s var(--ease-out); }
     .port-item:hover img { transform: scale(1.06); }
     .port-item-ph {
-      width: 100%; background: var(--dark-3);
+      width: 100%; background: linear-gradient(135deg, var(--dark-2), var(--dark-3));
       display: flex; align-items: center; justify-content: center;
-      font-size: 0.6rem; letter-spacing: 0.15em; text-transform: uppercase;
-      color: rgba(201,168,76,0.2);
+      font-size: 0.55rem; letter-spacing: 0.15em; text-transform: uppercase;
+      color: rgba(201,168,76,0.18);
     }
     .port-overlay {
       position: absolute; inset: 0;
       background: linear-gradient(to top, rgba(7,7,8,0.9) 0%, transparent 50%);
       opacity: 0; transition: opacity 0.4s;
-      display: flex; align-items: flex-end; padding: 22px;
+      display: flex; align-items: flex-end; padding: 20px;
     }
     .port-item:hover .port-overlay { opacity: 1; }
-    .port-cat { font-size: 0.56rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 4px; }
-    .port-name {
-      font-family: 'Cormorant Garamond', serif;
-      font-size: 1.1rem; color: var(--cream); font-weight: 300;
-    }
+    .port-cat { font-size: 0.56rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 3px; }
+    .port-name { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; color: var(--cream); font-weight: 300; }
 
-    /* ── FILMS SECTION ── */
-    .port-films { margin-top: 80px; }
-    .port-films-grid {
-      display: grid; grid-template-columns: repeat(3,1fr);
-      gap: 8px; margin-top: 40px;
-    }
-    .vk-card {
-      position: relative; aspect-ratio: 16/9;
-      background: var(--dark-2); overflow: hidden;
-    }
-    .vk-card iframe {
-      position: absolute; inset: 0; width: 100%; height: 100%; border: none;
-    }
-    .vk-ph {
-      position: absolute; inset: 0;
-      background: var(--dark-3);
-      display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 16px;
-    }
-    .vk-ph-play {
-      width: 64px; height: 64px; border-radius: 50%;
-      border: 2px solid var(--border);
-      display: flex; align-items: center; justify-content: center;
-    }
-    .vk-ph-label { font-size: 0.62rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--cream-dim); }
-    .vk-info {
-      position: absolute; bottom: 0; left: 0; right: 0;
-      padding: 20px; background: linear-gradient(to top, rgba(7,7,8,0.85), transparent);
-    }
-    .vk-cat { font-size: 0.55rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--gold); margin-bottom: 3px; }
-    .vk-name { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: var(--cream); font-weight: 300; }
-
-    @media (max-width: 900px) {
+    /* ════════ RESPONSIVE ════════ */
+    @media (max-width: 1000px) {
+      .featured-video-wrap { padding: 0 36px 48px; }
+      .vk-section { padding: 0 36px 60px; }
+      .vk-main-grid { grid-template-columns: 1fr 1fr; }
+      .vk-main-grid .vk-wide { grid-column: span 2; }
+      .photo-section { padding: 60px 36px; }
+      .port-stories-header { padding: 0 36px; }
       .port-masonry { columns: 2; }
-      .port-films-grid { grid-template-columns: 1fr 1fr; }
     }
-    @media (max-width: 550px) {
+    @media (max-width: 680px) {
+      .featured-video-wrap { padding: 0 16px 36px; }
+      .vk-section { padding: 0 16px 48px; }
+      .vk-main-grid { grid-template-columns: 1fr; }
+      .vk-main-grid .vk-wide { grid-column: span 1; }
+      .photo-section { padding: 48px 16px; }
+      .port-stories-header { padding: 0 16px; }
       .port-masonry { columns: 1; }
-      .port-films-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
 <body>
-
 <div class="noise"></div>
 <div class="cursor-dot"></div>
 <div class="cursor-ring"></div>
@@ -133,19 +237,247 @@
   <div class="burger"><span></span><span></span><span></span></div>
 </header>
 
-<div class="inner-hero">
+<!-- INNER HERO -->
+<div class="inner-hero" style="min-height:40vh;padding-bottom:0;">
   <div class="inner-hero-grid"></div>
   <div class="inner-hero-content">
-    <div class="inner-tag">Наши работы</div>
+    <div class="inner-tag">Видео и фото</div>
     <h1 class="inner-title">Порт<em>фолио</em></h1>
   </div>
   <div class="inner-hero-num">2000+</div>
 </div>
 
-<!-- PORTFOLIO -->
-<section class="section" style="background:var(--black);">
-  <div class="s-tag" data-reveal>Избранные проекты</div>
-  <h2 class="s-title" data-reveal data-delay="2">Мероприятия,<br>которые <em>мы создали</em></h2>
+<!-- ══════════════════════════
+     FEATURED VIDEO - ГЛАВНЫЙ
+══════════════════════════════ -->
+<section class="featured-video-wrap" style="padding-top:40px;">
+  <div class="s-tag" data-reveal style="margin-bottom:20px;">Главный фильм</div>
+  <h2 class="s-title" data-reveal data-delay="2" style="margin-bottom:32px;">
+    Имиджевый <em>фильм</em>
+  </h2>
+
+  <!-- ★ ГЛАВНОЕ ВИДЕО - вставьте embed из ВКонтакте:
+       1. Откройте vk.com/wall-212923425_44 (или любой другой пост)
+       2. Нажмите «Поделиться» → «Код для вставки»
+       3. Скопируйте src из iframe и замените XXXX ниже
+  -->
+  <div class="featured-video" id="featuredVideo" data-reveal>
+    <div class="fv-ph"><div class="fv-ph-num">М</div></div>
+
+    <!-- Раскомментируйте и вставьте реальный embed:
+    <iframe
+      src="https://vk.com/video_ext.php?oid=-212923425&id=XXXXX&hash=XXXXX&hd=2"
+      allow="autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
+      allowfullscreen>
+    </iframe>
+    -->
+
+    <div class="fv-overlay">
+      <div class="fv-play-ring">
+        <svg width="28" height="32" viewBox="0 0 28 32" fill="none">
+          <path d="M4 2l22 14L4 30V2z" fill="#c9a84c"/>
+        </svg>
+      </div>
+      <div class="fv-label">Смотреть фильм · 3:47 мин</div>
+    </div>
+    <div class="fv-info">
+      <div class="fv-cat">Имиджевый фильм · 2024</div>
+      <div class="fv-name">УГМК Холдинг - Корпоративный фильм</div>
+      <div class="fv-duration">wall-212923425_44 · 3 мин 47 сек</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════════════════
+     VK VIDEOS GRID
+══════════════════════════════ -->
+<div class="vk-section">
+  <div class="s-tag" data-reveal style="margin-bottom:16px;">Все видеоработы</div>
+  <h2 class="s-title" data-reveal data-delay="2" style="margin-bottom:32px;">
+    Наши <em>фильмы</em> и ролики
+  </h2>
+
+  <!-- Как добавить реальные видео:
+       Для каждого поста vk.com/wall-212923425_NN → «Поделиться» → «Код для вставки»
+       Скопируйте src iframe и раскомментируйте строки ниже -->
+
+  <div class="vk-main-grid" data-reveal>
+
+    <!-- Ролик 1 (широкий) -->
+    <div class="vk-card-v2 wide vk-wide">
+      <div class="vkc-ph"><div class="vkc-ph-icon">▶</div><div class="vkc-ph-lbl">wall-212923425_45</div></div>
+      <!-- <iframe src="https://vk.com/video_ext.php?oid=-212923425&id=XXXXX&hash=XXXXX&hd=2" allow="autoplay; encrypted-media; fullscreen;" allowfullscreen></iframe> -->
+      <div class="vkc-overlay">
+        <div class="vkc-play">
+          <svg width="22" height="26" viewBox="0 0 22 26" fill="none"><path d="M3 2l17 11L3 24V2z" fill="#c9a84c"/></svg>
+        </div>
+      </div>
+      <div class="vkc-info">
+        <div class="vkc-cat">Event-видео · 2024</div>
+        <div class="vkc-name">Сбербанк - Форум лидеров · 2:15 мин</div>
+      </div>
+    </div>
+
+    <!-- Ролик 2 -->
+    <div class="vk-card-v2">
+      <div class="vkc-ph"><div class="vkc-ph-icon">▶</div><div class="vkc-ph-lbl">wall-212923425_47</div></div>
+      <!-- <iframe src="https://vk.com/video_ext.php?oid=-212923425&id=XXXXX&hash=XXXXX" allow="autoplay; encrypted-media; fullscreen;" allowfullscreen></iframe> -->
+      <div class="vkc-overlay">
+        <div class="vkc-play"><svg width="20" height="24" viewBox="0 0 20 24" fill="none"><path d="M2 2l16 10L2 22V2z" fill="#c9a84c"/></svg></div>
+      </div>
+      <div class="vkc-info">
+        <div class="vkc-cat">Корпоративный фильм</div>
+        <div class="vkc-name">Атомстройкомплекс - 30 лет · 4:02 мин</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 2-й ряд -->
+  <div class="vk-main-grid" style="margin-top:8px;" data-reveal data-delay="1">
+
+    <div class="vk-card-v2">
+      <div class="vkc-ph"><div class="vkc-ph-icon">▶</div><div class="vkc-ph-lbl">wall-212923425_42</div></div>
+      <div class="vkc-overlay">
+        <div class="vkc-play"><svg width="20" height="24" viewBox="0 0 20 24" fill="none"><path d="M2 2l16 10L2 22V2z" fill="#c9a84c"/></svg></div>
+      </div>
+      <div class="vkc-info">
+        <div class="vkc-cat">Презентационный ролик</div>
+        <div class="vkc-name">Фольксваген - Новая модель · 1:48 мин</div>
+      </div>
+    </div>
+
+    <div class="vk-card-v2">
+      <div class="vkc-ph"><div class="vkc-ph-icon">▶</div><div class="vkc-ph-lbl">wall-212923425_41</div></div>
+      <div class="vkc-overlay">
+        <div class="vkc-play"><svg width="20" height="24" viewBox="0 0 20 24" fill="none"><path d="M2 2l16 10L2 22V2z" fill="#c9a84c"/></svg></div>
+      </div>
+      <div class="vkc-info">
+        <div class="vkc-cat">Концертный фильм</div>
+        <div class="vkc-name">УГМК - День металлурга · 3:20 мин</div>
+      </div>
+    </div>
+
+    <div class="vk-card-v2">
+      <div class="vkc-ph"><div class="vkc-ph-icon">▶</div><div class="vkc-ph-lbl">wall-212923425_40</div></div>
+      <div class="vkc-overlay">
+        <div class="vkc-play"><svg width="20" height="24" viewBox="0 0 20 24" fill="none"><path d="M2 2l16 10L2 22V2z" fill="#c9a84c"/></svg></div>
+      </div>
+      <div class="vkc-info">
+        <div class="vkc-cat">Гала-ужин</div>
+        <div class="vkc-name">Правительство СО - Новогодний вечер</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- 3-й ряд -->
+  <div class="vk-main-grid" style="margin-top:8px;" data-reveal data-delay="2">
+    <div class="vk-card-v2">
+      <div class="vkc-ph"><div class="vkc-ph-icon">▶</div><div class="vkc-ph-lbl">wall-212923425_36</div></div>
+      <div class="vkc-overlay"><div class="vkc-play"><svg width="20" height="24" viewBox="0 0 20 24" fill="none"><path d="M2 2l16 10L2 22V2z" fill="#c9a84c"/></svg></div></div>
+      <div class="vkc-info"><div class="vkc-cat">Реклама</div><div class="vkc-name">Мегадента - Имиджевый ролик</div></div>
+    </div>
+    <div class="vk-card-v2">
+      <div class="vkc-ph"><div class="vkc-ph-icon">▶</div><div class="vkc-ph-lbl">wall-212923425_35</div></div>
+      <div class="vkc-overlay"><div class="vkc-play"><svg width="20" height="24" viewBox="0 0 20 24" fill="none"><path d="M2 2l16 10L2 22V2z" fill="#c9a84c"/></svg></div></div>
+      <div class="vkc-info"><div class="vkc-cat">Event</div><div class="vkc-name">Открытие ТРЦ Карнавал</div></div>
+    </div>
+    <div class="vk-card-v2">
+      <div class="vkc-ph"><div class="vkc-ph-icon">▶</div><div class="vkc-ph-lbl">wall-212923425_33</div></div>
+      <div class="vkc-overlay"><div class="vkc-play"><svg width="20" height="24" viewBox="0 0 20 24" fill="none"><path d="M2 2l16 10L2 22V2z" fill="#c9a84c"/></svg></div></div>
+      <div class="vkc-info"><div class="vkc-cat">Корпоратив</div><div class="vkc-name">Брусника - Корпоративный день</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════
+     STORIES (vertical)
+══════════════════════════════ -->
+<section class="port-stories">
+  <div class="port-stories-header">
+    <div class="s-tag" data-reveal>Вертикальный формат · Истории</div>
+    <h2 class="s-title" data-reveal data-delay="2">Короткие <em>stories</em></h2>
+  </div>
+
+  <div class="stories-track-wrap">
+    <div class="stories-track">
+
+      <div class="story-card" data-vk-url="https://vk.com/wall-212923425_44" data-cursor-play>
+        <div class="story-ph">
+          <div class="story-ph-icon">▶</div>
+          <div class="story-ph-text">wall-212923425_44</div>
+        </div>
+        <!-- раскомментировать: <iframe src="https://vk.com/video_ext.php?oid=-212923425&id=XXXXX&hash=XXXXX" allow="autoplay; encrypted-media; fullscreen;" allowfullscreen></iframe> -->
+        <div class="story-card-overlay">
+          <div><div class="story-tag">Имиджевый фильм</div><div class="story-label">УГМК Холдинг</div></div>
+        </div>
+        <div class="story-play-btn">
+          <svg width="18" height="20" viewBox="0 0 18 20" fill="none"><path d="M2 2l14 8L2 18V2z" fill="#c9a84c"/></svg>
+        </div>
+      </div>
+
+      <div class="story-card" data-vk-url="https://vk.com/wall-212923425_45" data-cursor-play>
+        <div class="story-ph">
+          <div class="story-ph-icon">▶</div>
+          <div class="story-ph-text">wall-212923425_45</div>
+        </div>
+        <div class="story-card-overlay">
+          <div><div class="story-tag">Event-видео</div><div class="story-label">Сбербанк Форум</div></div>
+        </div>
+        <div class="story-play-btn">
+          <svg width="18" height="20" viewBox="0 0 18 20" fill="none"><path d="M2 2l14 8L2 18V2z" fill="#c9a84c"/></svg>
+        </div>
+      </div>
+
+      <div class="story-card" data-vk-url="https://vk.com/wall-212923425_47" data-cursor-play>
+        <div class="story-ph"><div class="story-ph-icon">▶</div><div class="story-ph-text">wall-212923425_47</div></div>
+        <div class="story-card-overlay"><div><div class="story-tag">Корпоратив</div><div class="story-label">Атомстройкомплекс</div></div></div>
+        <div class="story-play-btn"><svg width="18" height="20" viewBox="0 0 18 20" fill="none"><path d="M2 2l14 8L2 18V2z" fill="#c9a84c"/></svg></div>
+      </div>
+
+      <div class="story-card" data-vk-url="https://vk.com/wall-212923425_42" data-cursor-play>
+        <div class="story-ph"><div class="story-ph-icon">▶</div><div class="story-ph-text">wall-212923425_42</div></div>
+        <div class="story-card-overlay"><div><div class="story-tag">Презентация</div><div class="story-label">Фольксваген</div></div></div>
+        <div class="story-play-btn"><svg width="18" height="20" viewBox="0 0 18 20" fill="none"><path d="M2 2l14 8L2 18V2z" fill="#c9a84c"/></svg></div>
+      </div>
+
+      <div class="story-card" data-vk-url="https://vk.com/wall-212923425_41" data-cursor-play>
+        <div class="story-ph"><div class="story-ph-icon">▶</div><div class="story-ph-text">wall-212923425_41</div></div>
+        <div class="story-card-overlay"><div><div class="story-tag">Концерт</div><div class="story-label">УГМК · День металлурга</div></div></div>
+        <div class="story-play-btn"><svg width="18" height="20" viewBox="0 0 18 20" fill="none"><path d="M2 2l14 8L2 18V2z" fill="#c9a84c"/></svg></div>
+      </div>
+
+      <div class="story-card" data-vk-url="https://vk.com/wall-212923425_40" data-cursor-play>
+        <div class="story-ph"><div class="story-ph-icon">▶</div><div class="story-ph-text">wall-212923425_40</div></div>
+        <div class="story-card-overlay"><div><div class="story-tag">Гала-вечер</div><div class="story-label">Правительство СО</div></div></div>
+        <div class="story-play-btn"><svg width="18" height="20" viewBox="0 0 18 20" fill="none"><path d="M2 2l14 8L2 18V2z" fill="#c9a84c"/></svg></div>
+      </div>
+
+      <div class="story-card" data-vk-url="https://vk.com/wall-212923425_36" data-cursor-play>
+        <div class="story-ph"><div class="story-ph-icon">▶</div><div class="story-ph-text">wall-212923425_36</div></div>
+        <div class="story-card-overlay"><div><div class="story-tag">Реклама</div><div class="story-label">Мегадента</div></div></div>
+        <div class="story-play-btn"><svg width="18" height="20" viewBox="0 0 18 20" fill="none"><path d="M2 2l14 8L2 18V2z" fill="#c9a84c"/></svg></div>
+      </div>
+
+    </div>
+  </div>
+  <div class="stories-arrows">
+    <button class="arrow-btn arrow-prev" aria-label="Назад">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M12 3L6 9l6 6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    </button>
+    <button class="arrow-btn arrow-next" aria-label="Вперёд">
+      <svg width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M6 3l6 6-6 6" stroke="currentColor" stroke-width="1.2" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+</section>
+
+<!-- ══════════════════════════
+     PHOTO MASONRY (внизу)
+══════════════════════════════ -->
+<section class="photo-section">
+  <div class="s-tag" data-reveal>Фотоотчёты</div>
+  <h2 class="s-title" data-reveal data-delay="2">Мероприятия <em>в кадре</em></h2>
 
   <div class="filter-bar" data-reveal data-delay="3">
     <button class="filter-btn active" data-f="all">Все</button>
@@ -153,136 +485,44 @@
     <button class="filter-btn" data-f="private">Частные</button>
     <button class="filter-btn" data-f="concert">Концерты</button>
     <button class="filter-btn" data-f="decor">Декор</button>
-    <button class="filter-btn" data-f="video">Видео</button>
   </div>
 
   <div class="port-masonry" data-reveal>
-    <div class="port-item" data-cat="corporate"><div class="port-item-ph" style="height:340px;">Фото</div>
-      <div class="port-overlay"><div><div class="port-cat">Корпоратив</div><div class="port-name">Сбербанк — Форум лидеров</div></div></div>
+    <div class="port-item" data-cat="corporate"><div class="port-item-ph" style="height:330px;">Фото</div>
+      <div class="port-overlay"><div><div class="port-cat">Корпоратив</div><div class="port-name">Сбербанк - Форум лидеров</div></div></div>
     </div>
-    <div class="port-item" data-cat="decor"><div class="port-item-ph" style="height:240px;">Фото</div>
-      <div class="port-overlay"><div><div class="port-cat">Декор</div><div class="port-name">Гала-ужин — Оформление</div></div></div>
+    <div class="port-item" data-cat="decor"><div class="port-item-ph" style="height:230px;">Фото</div>
+      <div class="port-overlay"><div><div class="port-cat">Декор</div><div class="port-name">Гала-ужин</div></div></div>
     </div>
-    <div class="port-item" data-cat="concert"><div class="port-item-ph" style="height:300px;">Фото</div>
-      <div class="port-overlay"><div><div class="port-cat">Концерт</div><div class="port-name">УГМК — День металлурга</div></div></div>
+    <div class="port-item" data-cat="concert"><div class="port-item-ph" style="height:290px;">Фото</div>
+      <div class="port-overlay"><div><div class="port-cat">Концерт</div><div class="port-name">УГМК - День металлурга</div></div></div>
     </div>
-    <div class="port-item" data-cat="private"><div class="port-item-ph" style="height:270px;">Фото</div>
+    <div class="port-item" data-cat="private"><div class="port-item-ph" style="height:260px;">Фото</div>
       <div class="port-overlay"><div><div class="port-cat">Частное</div><div class="port-name">Юбилей 50 лет</div></div></div>
     </div>
-    <div class="port-item" data-cat="corporate"><div class="port-item-ph" style="height:360px;">Фото</div>
-      <div class="port-overlay"><div><div class="port-cat">Форум</div><div class="port-name">Атомстройкомплекс — 30 лет</div></div></div>
+    <div class="port-item" data-cat="corporate"><div class="port-item-ph" style="height:350px;">Фото</div>
+      <div class="port-overlay"><div><div class="port-cat">Форум</div><div class="port-name">Атомстройкомплекс - 30 лет</div></div></div>
     </div>
-    <div class="port-item" data-cat="decor"><div class="port-item-ph" style="height:220px;">Фото</div>
+    <div class="port-item" data-cat="decor"><div class="port-item-ph" style="height:210px;">Фото</div>
       <div class="port-overlay"><div><div class="port-cat">Свадьба</div><div class="port-name">White Dream Wedding</div></div></div>
     </div>
     <div class="port-item" data-cat="corporate"><div class="port-item-ph" style="height:250px;">Фото</div>
-      <div class="port-overlay"><div><div class="port-cat">Корпоратив</div><div class="port-name">Правительство СО — Гала</div></div></div>
+      <div class="port-overlay"><div><div class="port-cat">Гала</div><div class="port-name">Правительство СО</div></div></div>
     </div>
-    <div class="port-item" data-cat="concert"><div class="port-item-ph" style="height:310px;">Фото</div>
-      <div class="port-overlay"><div><div class="port-cat">Концерт</div><div class="port-name">Открытие ТРЦ Карнавал</div></div></div>
+    <div class="port-item" data-cat="concert"><div class="port-item-ph" style="height:300px;">Фото</div>
+      <div class="port-overlay"><div><div class="port-cat">Открытие</div><div class="port-name">ТРЦ Карнавал</div></div></div>
     </div>
-    <div class="port-item" data-cat="corporate"><div class="port-item-ph" style="height:270px;">Фото</div>
-      <div class="port-overlay"><div><div class="port-cat">Презентация</div><div class="port-name">Фольксваген — Новая модель</div></div></div>
+    <div class="port-item" data-cat="corporate"><div class="port-item-ph" style="height:265px;">Фото</div>
+      <div class="port-overlay"><div><div class="port-cat">Презентация</div><div class="port-name">Фольксваген</div></div></div>
     </div>
-    <div class="port-item" data-cat="private"><div class="port-item-ph" style="height:230px;">Фото</div>
-      <div class="port-overlay"><div><div class="port-cat">Свадьба</div><div class="port-name">Торжество на 200 гостей</div></div></div>
+    <div class="port-item" data-cat="private"><div class="port-item-ph" style="height:220px;">Фото</div>
+      <div class="port-overlay"><div><div class="port-cat">Свадьба</div><div class="port-name">200 гостей</div></div></div>
     </div>
-    <div class="port-item" data-cat="concert"><div class="port-item-ph" style="height:290px;">Фото</div>
-      <div class="port-overlay"><div><div class="port-cat">Фестиваль</div><div class="port-name">Мегафон — Летний fest</div></div></div>
+    <div class="port-item" data-cat="concert"><div class="port-item-ph" style="height:285px;">Фото</div>
+      <div class="port-overlay"><div><div class="port-cat">Фестиваль</div><div class="port-name">Мегафон Summer Fest</div></div></div>
     </div>
-    <div class="port-item" data-cat="decor"><div class="port-item-ph" style="height:200px;">Фото</div>
-      <div class="port-overlay"><div><div class="port-cat">Декор</div><div class="port-name">Флористика банкетного зала</div></div></div>
-    </div>
-  </div>
-
-  <!-- FILMS -->
-  <div class="port-films">
-    <div class="s-tag" data-reveal>Видеопроизводство</div>
-    <h2 class="s-title" data-reveal data-delay="2">Наши <em>фильмы</em></h2>
-    <div class="port-films-grid" data-reveal data-delay="3">
-
-      <!-- Вставьте реальные embed-коды из ВКонтакте -->
-      <!-- Формат: https://vk.com/video_ext.php?oid=-212923425&id=VIDEO_ID&hash=HASH -->
-
-      <div class="vk-card">
-        <div class="vk-ph">
-          <div class="vk-ph-play">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 3l13 7-13 7V3z" fill="#c9a84c"/></svg>
-          </div>
-          <div class="vk-ph-label">wall-212923425_44</div>
-        </div>
-        <!-- <iframe src="https://vk.com/video_ext.php?oid=-212923425&id=XXXX&hash=XXXX" allowfullscreen></iframe> -->
-        <div class="vk-info">
-          <div class="vk-cat">Имиджевый фильм</div>
-          <div class="vk-name">УГМК — Корпоративное видео</div>
-        </div>
-      </div>
-
-      <div class="vk-card">
-        <div class="vk-ph">
-          <div class="vk-ph-play">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 3l13 7-13 7V3z" fill="#c9a84c"/></svg>
-          </div>
-          <div class="vk-ph-label">wall-212923425_45</div>
-        </div>
-        <div class="vk-info">
-          <div class="vk-cat">Рекламный ролик</div>
-          <div class="vk-name">Сбербанк — Форум 2024</div>
-        </div>
-      </div>
-
-      <div class="vk-card">
-        <div class="vk-ph">
-          <div class="vk-ph-play">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 3l13 7-13 7V3z" fill="#c9a84c"/></svg>
-          </div>
-          <div class="vk-ph-label">wall-212923425_47</div>
-        </div>
-        <div class="vk-info">
-          <div class="vk-cat">Event-видео</div>
-          <div class="vk-name">Атомстройкомплекс — 30 лет</div>
-        </div>
-      </div>
-
-      <div class="vk-card">
-        <div class="vk-ph">
-          <div class="vk-ph-play">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 3l13 7-13 7V3z" fill="#c9a84c"/></svg>
-          </div>
-          <div class="vk-ph-label">wall-212923425_42</div>
-        </div>
-        <div class="vk-info">
-          <div class="vk-cat">Презентационный фильм</div>
-          <div class="vk-name">Фольксваген — Новинка</div>
-        </div>
-      </div>
-
-      <div class="vk-card">
-        <div class="vk-ph">
-          <div class="vk-ph-play">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 3l13 7-13 7V3z" fill="#c9a84c"/></svg>
-          </div>
-          <div class="vk-ph-label">wall-212923425_41</div>
-        </div>
-        <div class="vk-info">
-          <div class="vk-cat">Концертный фильм</div>
-          <div class="vk-name">УГМК — День металлурга</div>
-        </div>
-      </div>
-
-      <div class="vk-card">
-        <div class="vk-ph">
-          <div class="vk-ph-play">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M4 3l13 7-13 7V3z" fill="#c9a84c"/></svg>
-          </div>
-          <div class="vk-ph-label">wall-212923425_40</div>
-        </div>
-        <div class="vk-info">
-          <div class="vk-cat">Имиджевое видео</div>
-          <div class="vk-name">Правительство СО — Гала</div>
-        </div>
-      </div>
-
+    <div class="port-item" data-cat="decor"><div class="port-item-ph" style="height:195px;">Фото</div>
+      <div class="port-overlay"><div><div class="port-cat">Флористика</div><div class="port-name">Оформление банкетного зала</div></div></div>
     </div>
   </div>
 </section>
@@ -294,10 +534,10 @@
   <div class="cta-content">
     <div class="cta-sup" data-reveal>Хотите так же?</div>
     <h2 class="cta-title" style="font-size:clamp(3rem,7vw,7rem);" data-reveal data-delay="2">
-      Обсудим<br><span class="gold">ваш</span> проект
+      Создадим<br><span class="gold">ваше</span> событие
     </h2>
     <div class="cta-actions" data-reveal data-delay="3" style="margin-top:32px;">
-      <a href="contacts.html" class="btn-gold"><span>Оставить заявку</span></a>
+      <a href="contacts.html" class="btn-gold"><span>Обсудить проект</span></a>
       <a href="tel:+79122490043" class="btn-outline-gold">+7 (912) 249-00-43</a>
     </div>
   </div>
@@ -305,22 +545,17 @@
 
 <footer>
   <div class="footer-top">
-    <div>
-      <div class="footer-logo">Маршал <span>·</span> Event Agency</div>
-      <p class="footer-tag">Профессиональная организация мероприятий любой сложности.</p>
-    </div>
+    <div><div class="footer-logo">Маршал <span>·</span> Event Agency</div><p class="footer-tag">Профессиональная организация мероприятий любой сложности.</p></div>
     <div><div class="f-col-title">Навигация</div><ul class="f-links"><li><a href="about.html">О нас</a></li><li><a href="services.html">Услуги</a></li><li><a href="portfolio.html">Портфолио</a></li><li><a href="contacts.html">Контакты</a></li></ul></div>
     <div><div class="f-col-title">Услуги</div><ul class="f-links"><li><a href="services.html">Корпоративы</a></li><li><a href="services.html">Частные торжества</a></li><li><a href="services.html">Видеопроизводство</a></li></ul></div>
     <div><div class="f-col-title">Контакты</div><ul class="f-links"><li><a href="tel:+79122490043">+7 (912) 249-00-43</a></li><li><a href="contacts.html">Написать нам</a></li></ul></div>
   </div>
-  <div class="footer-bottom">
-    <span>© 2026 Event-агентство «МАРШАЛ»</span>
-    <span>Екатеринбург · Россия</span>
-  </div>
+  <div class="footer-bottom"><span>© 2026 Event-агентство «МАРШАЛ»</span><span>Екатеринбург · Россия</span></div>
 </footer>
 
 <script src="js/main.js"></script>
 <script>
+  // filter photos
   document.querySelectorAll('.filter-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
@@ -330,6 +565,40 @@
         item.classList.toggle('hidden', f !== 'all' && item.dataset.cat !== f);
       });
     });
+  });
+
+  // featured video
+  const fv = document.getElementById('featuredVideo');
+  if (fv) {
+    const fvOverlay = fv.querySelector('.fv-overlay');
+    const fvIframe  = fv.querySelector('iframe');
+    if (fvOverlay) {
+      fvOverlay.addEventListener('click', () => {
+        if (fvIframe) {
+          let src = fvIframe.src;
+          if (!src.includes('autoplay=1')) src += (src.includes('?') ? '&' : '?') + 'autoplay=1';
+          fvIframe.src = src;
+          fv.classList.add('playing');
+        }
+      });
+    }
+  }
+
+  // vk-card-v2 click
+  document.querySelectorAll('.vk-card-v2').forEach(card => {
+    const overlay = card.querySelector('.vkc-overlay');
+    const iframe  = card.querySelector('iframe');
+    const ph      = card.querySelector('.vkc-ph');
+    if (overlay) {
+      overlay.addEventListener('click', () => {
+        if (iframe) {
+          let src = iframe.src;
+          if (!src.includes('autoplay=1')) src += (src.includes('?') ? '&' : '?') + 'autoplay=1';
+          iframe.src = src;
+          card.classList.add('playing');
+        }
+      });
+    }
   });
 </script>
 </body>
